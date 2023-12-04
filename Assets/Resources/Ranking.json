@@ -1,0 +1,24 @@
+{
+    "playerScores": 
+    [
+        {
+            "playerName": "Player1",
+            "score": 10000
+        },
+        {
+            "playerName": "Player2",
+            "score": 9000
+        },
+        {
+            "playerName": "Player3",
+            "score": 8000
+        },
+        {
+            "playerName": "Player4",
+            "score": 7000
+        },
+        {
+            "playerName": "Player5",
+            "score": 6000
+        }
+    ]}
