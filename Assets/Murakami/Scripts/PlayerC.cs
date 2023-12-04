@@ -46,7 +46,7 @@ public class PlayerC : MonoBehaviour
     [Header("アニメーション"),SerializeField]
     private Animator anim = null;
 
-    [SerializeField] MeshCollider planeCol;
+    [SerializeField] MeshCollider[] planeCol;
 
     #endregion
 
@@ -220,8 +220,11 @@ public class PlayerC : MonoBehaviour
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
-        planeCol = planeCol.GetComponent<MeshCollider>();
-        planeCol.enabled = true;
+        for(int u = 0; u < planeCol.Length; u++) {
+            planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
+            planeCol[u].enabled = true;
+        }
+        
         for(int count = 0; count < gutsGauge.Length; count++)
         {
             gutsGauge[count].enabled = false;
@@ -574,7 +577,9 @@ return _playerInput.currentControlScheme == "Gamepad";
                 }
             }
             falling = true;
-            planeCol.enabled = false;
+            for(int u = 0; u < planeCol.Length; u++) {
+                planeCol[u].enabled = false;
+            }
             _playerInput.enabled = false;
            
         }
@@ -624,14 +629,6 @@ return _playerInput.currentControlScheme == "Gamepad";
             gameManager.RECOUNT++;
             gameManager.DESSPOS =  col.transform.position;
         }
-    }
-
-    IEnumerator WaitAddPoint() {
-        yield return new WaitForSeconds(5.0f);
-        
-       
-        
-        
     }
 
     private void OnTriggerExit(Collider col)

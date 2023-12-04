@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerObject;
     PlayerC player;
     PlayerInput playerInput;
+
     [SerializeField] Image PausePanel;
     float fadeSpeed = 0.02f;
     float P_red, P_green, P_blue, P_alfa;
@@ -126,8 +127,8 @@ public class GameManager : MonoBehaviour
             return this.GameOver;
         }
     }
-    [SerializeField] GameObject yuka;
-    MeshCollider plane;
+    [SerializeField] MeshCollider[] plane;
+
 
     [SerializeField] GameObject gameOverThings;
     [SerializeField] GameObject gameClearThings;
@@ -142,7 +143,10 @@ public class GameManager : MonoBehaviour
     {
         gameOverThings.SetActive(false);
         gameClearThings.SetActive(false);
-        plane = yuka.GetComponent<MeshCollider>();
+        for(int u = 0; u < plane.Length; u++) {
+            plane[u] = plane[u].GetComponent<MeshCollider>();
+        }
+        
         player = playerObject.GetComponent<PlayerC>();
         playerInput = playerObject.GetComponent<PlayerInput>();
         mission = mission.GetComponent<MissionManager>();
@@ -159,7 +163,7 @@ public class GameManager : MonoBehaviour
         zankiAnim = ZankiText.GetComponent<Animator>();
         zankiAnim.enabled = false;
         ZankiText.SetText("×{0}", managerRemain);
-
+        dessPosition = player.transform.position;
     }
 
     bool zankiAdd = false;
@@ -255,10 +259,13 @@ public class GameManager : MonoBehaviour
         }
         
     }
-
+   
     void FadeIn() {
         player.FALLING = false;
-        plane.enabled = true;
+        for(int u = 0; u < plane.Length; u++) {
+            plane[u].enabled = true;
+        }
+
         playerInput.enabled = true;
         RevivePlayer(reCount);
         if(P_alfa > 0.0f) {
@@ -337,9 +344,6 @@ public class GameManager : MonoBehaviour
         if(windowUP) {
             coinAnim.enabled = windowUP;
             coinAnim.SetBool("coin", windowUP);
-            
-           
-            
             //windowFlag = false;
         }
         
@@ -378,12 +382,12 @@ public class GameManager : MonoBehaviour
     /// <param name="recount">チェックポイントの数</param>
     public void RevivePlayer(int recount) {
         if(managerRemain != 0) {
-            if(recount == 0) {
+            //if(recount == 0) {
                 //ふれていなかったらのチェックポイント
-                playerObject.transform.position = new Vector3(-0.3356363f, 0.016f, -20.46272f);
-            } else {
+                //playerObject.transform.position = new Vector3(-1.07f, -0.06f, -26.7f);
+            //} else {
                 playerObject.transform.position = dessPosition;
-            }
+            //}
         }
     }
 }
