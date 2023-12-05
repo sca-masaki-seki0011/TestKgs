@@ -20,6 +20,10 @@ public class SousaUIContorller : MonoBehaviour
 
     [SerializeField] private Text _text;
 
+    float tipsTime;
+
+    bool tips = false;
+
     // Start is called before the first frame update
 
     void Start()
@@ -36,7 +40,7 @@ public class SousaUIContorller : MonoBehaviour
         _loadingUI.SetActive(true);
         StartCoroutine(LoadScene());
     }
-
+    
     //‚±‚±‰ü—Ç‚·‚é
     IEnumerator LoadScene() {
         AsyncOperation async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
@@ -46,14 +50,12 @@ public class SousaUIContorller : MonoBehaviour
 
             _text.text = (async.progress * 100).ToString() + "%";
 
-            Pagecount = (int)async.progress%5;
+            //Pagecount = (int)async.progress%5;
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
                 if(Gamepad.current.bButton.isPressed) {
                     async.allowSceneActivation = true;
                 }
-                //yield return new WaitForSeconds(3.0f);
-                
             }
             yield return null;
         }
@@ -66,7 +68,28 @@ public class SousaUIContorller : MonoBehaviour
     void Update()
     {
         LoadNextScene();
+        Debug.Log(Pagecount);
+        
+        
+        if(!tips) {
+            tipsTime += Time.deltaTime;
+            if((int)tipsTime != 0 && (int)tipsTime % 5 == 0) {
+                tips = true;
+            }
+        }
+       
+        if(tips) {
+            tips = false;
+            if(Pagecount == 4) {
+                Pagecount = 0;
+            } else {
+                Pagecount++;
+            }
+            tipsTime = 0f;
+           
+        }
         ImageNext(Pagecount);
+
 
     }
 
@@ -77,8 +100,8 @@ public class SousaUIContorller : MonoBehaviour
     void ImageNext(int count) {
         for(int i = 0; i < NextImage.Length; i++) {
             if(i == count) {//ƒy[ƒW”‚ª“¯‚¶‚È‚ç
-                GameImage[i].SetActive(true);
-                NextImage[i].color = new Color(255,0,0);
+                GameImage[count].SetActive(true);
+                NextImage[count].color = new Color(255,0,0);
             } else {
                 GameImage[i].SetActive(false);
                 NextImage[i].color = new Color(255, 255, 255);
