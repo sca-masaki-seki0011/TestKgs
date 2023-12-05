@@ -248,6 +248,17 @@ public class PlayerC : MonoBehaviour
     void Update()
     {
         Debug.Log("パス0"+path[0]);
+        path[0] = this.transform.position;
+        if(_characterController.isGrounded && silde) {
+            playerSpeed = 10f;
+            StartCoroutine(WaitSpeed());
+        } 
+
+        if(Gamepad.current.leftShoulder.wasPressedThisFrame) {
+            for(int u = 0; u < kaidan.Length; u++) {
+            kaidan[u].enabled = true;
+            }
+        }
         if(missio) {
             missioTime += Time.deltaTime;
         }
@@ -268,6 +279,10 @@ public class PlayerC : MonoBehaviour
             MovePlayer();
         }
     }
+
+    IEnumerator WaitSpeed() {
+        yield return new WaitForSeconds(3.0f);
+        playerSpeed = 4f;}
 
     //体力ゲージの表示がおかしくならない様にするために必要
     private void LateUpdate()
@@ -293,15 +308,6 @@ return _playerInput.currentControlScheme == "Gamepad";
     //移動アクション
     public void OnMove(InputAction.CallbackContext context)
     {
-       
-       if(silde) {
-            DOTween.KillAll();
-            for(int u = 0; u < kaidan.Length; u++) {
-                kaidan[u].enabled = true;
-            }
-            silde = false;
-        }
-        
         _inputMove = context.ReadValue<Vector2>();
         //移動量の入力
      
@@ -323,9 +329,24 @@ return _playerInput.currentControlScheme == "Gamepad";
     //ジャンプアクション
     public void OnJump(InputAction.CallbackContext context)
     {
+        if(silde) {
+            DOTween.KillAll(); 
+            _jumpSpeed = 20f;
+            playerSpeed = 10f;
+            _verticalVelocity = _jumpSpeed;
+            //for(int u = 0; u < kaidan.Length; u++) {
+            //kaidan[u].enabled = true;
+            // }
+            silde = false;
+        } else {
+            _jumpSpeed = 10f;
+            
+        }
+       
         //地面にいる時且つ回避していない時だけ処理する
         if(!context.performed || !_characterController.isGrounded)
         {
+           
             return;
         }
 
@@ -339,6 +360,8 @@ return _playerInput.currentControlScheme == "Gamepad";
             _verticalVelocity = _jumpSpeed * 2.0f;
         }
     }
+
+    
 
     //回避
     public void OnAvoidance(InputAction.CallbackContext context)
@@ -465,9 +488,6 @@ return _playerInput.currentControlScheme == "Gamepad";
     //移動処理
     private void PlayerMove(float speed)//, Vector3 cameraVec
     {
-        //カメラの向きを取得する
-        //cameraForVec = Camera.main.transform.TransformDirection(Vector3.forward);
-        //cameraRightVec = Camera.main.transform.TransformDirection(Vector3.right);
 
         //カメラの角度を取得する
         // float cameraVecF = cameraVec.z;
@@ -552,14 +572,15 @@ return _playerInput.currentControlScheme == "Gamepad";
             allGoal = true;
             gameManager.NameChange();
         }
-        
+        if(hit.gameObject.tag == "Ice") {
+            
+            silde = true;
+            for(int u = 0; u < kaidan.Length; u++) {
+                kaidan[u].enabled = false;
+            }
+            MoveSlide();
+        }
     }
-
-    void MoveSlide() {
-        this.transform.DOPath(path,10f);
-    }
-
-
 
     private void OnTriggerEnter(Collider col)
     {
@@ -624,20 +645,24 @@ return _playerInput.currentControlScheme == "Gamepad";
             }
         }
 
-        if(col.tag == "Ice") {
-            path[0] = this.transform.position;
-            silde = true;
-            for(int u = 0; u < kaidan.Length; u++) {
-                kaidan[u].enabled = false;
-            }
-            MoveSlide();
-        }
+        
 
         if(col.tag == "CheckPoint") {
 
             gameManager.RECOUNT++;
             gameManager.DESSPOS =  col.transform.position;
         }
+    }
+    bool y = false;
+    void MoveSlide() {
+         //if(path[0].x < path[1].x) {
+           //    y = true;
+         //}
+
+        //if(y) {
+            this.transform.DOPath(path, 2f);
+          //  y = false;
+        //} 
     }
 
     private void OnTriggerExit(Collider col)

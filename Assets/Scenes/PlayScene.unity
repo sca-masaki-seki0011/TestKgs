@@ -3526,7 +3526,11 @@ MonoBehaviour:
   - {fileID: 908499207784800300}
   - {fileID: 8979025725071711312}
   - {fileID: 3078148969405216623}
-  kaidan: {fileID: 0}
+  kaidan:
+  - {fileID: 1555932438}
+  - {fileID: 979648554}
+  - {fileID: 1061188178}
+  - {fileID: 1293087622}
   _playerInput: {fileID: 392629484}
   TopClamp: 70
   BottomClamp: -30
