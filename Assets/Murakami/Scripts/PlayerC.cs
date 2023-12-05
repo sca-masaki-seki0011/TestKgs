@@ -49,13 +49,12 @@ public class PlayerC : MonoBehaviour
 
     [SerializeField] MeshCollider[] planeCol;
 
-    Vector3[] path=
-    {
-        new Vector3(56.13f,13.79f,-2.32f),
-        new Vector3(63.57f,8.46f,-2.16f),
-        new Vector3(68.59f,8.33f,-2.16f),
-        new Vector3(80.48f,-1.03f,-2.16f)
-    };
+    Vector3[] path = { 
+    new Vector3(56.13f,13.79f,-2.32f),
+    new Vector3(63.57f,8.46f,-2.16f),
+    new Vector3(68.59f,8.33f,-2.16f),
+    new Vector3(80.48f,-1.03f,-2.16f)
+        };
     [SerializeField] BoxCollider[] kaidan;
 
     #endregion
@@ -247,8 +246,10 @@ public class PlayerC : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("パス0"+path[0]);
-        path[0] = this.transform.position;
+       
+      
+        
+        
         if(_characterController.isGrounded && silde) {
             playerSpeed = 10f;
             StartCoroutine(WaitSpeed());
@@ -308,6 +309,10 @@ return _playerInput.currentControlScheme == "Gamepad";
     //移動アクション
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(silde) {
+            DOTween.KillAll();
+        }
+       
         _inputMove = context.ReadValue<Vector2>();
         //移動量の入力
      
@@ -329,6 +334,7 @@ return _playerInput.currentControlScheme == "Gamepad";
     //ジャンプアクション
     public void OnJump(InputAction.CallbackContext context)
     {
+        
         if(silde) {
             DOTween.KillAll(); 
             _jumpSpeed = 20f;
@@ -470,34 +476,39 @@ return _playerInput.currentControlScheme == "Gamepad";
 
             // 操作入力からy軸周りの目標角度[deg]を計算
             var targetAngleY = - Mathf.Atan2(_inputMove.y, _inputMove.x)
-                * Mathf.Rad2Deg + 90;
-
+                * Mathf.Rad2Deg+90;
+           
             // イージングしながら次の回転角度[deg]を計算
             var angleY = Mathf.SmoothDampAngle(
                 _transform.eulerAngles.y,
-                targetAngleY,
-                ref _turnVelocity,
+               targetAngleY,
+               ref _turnVelocity,
                 0.1f
-            );
+          );
 
             // オブジェクトの回転を更新
             _transform.rotation = Quaternion.Euler(0, angleY, 0);
         }
     }
 
+    
+
     //移動処理
     private void PlayerMove(float speed)//, Vector3 cameraVec
     {
-
+        
+            Vector3 moveVelocity = new Vector3(
+             _inputMove.x * speed,
+             _verticalVelocity,
+             _inputMove.y * speed
+         );
+          var moveDelta = moveVelocity * Time.deltaTime;
+        
         //カメラの角度を取得する
         // float cameraVecF = cameraVec.z;
-        Vector3 moveVelocity = new Vector3(
-               _inputMove.x * speed,
-               _verticalVelocity,
-               _inputMove.y * speed
-           ) ;
+      
         // 現在フレームの移動量を移動速度から計算
-        var moveDelta = moveVelocity * Time.deltaTime;//* cameraVecF 
+        //* cameraVecF 
         //雨が降っていたら
         //if (isRain)
         //{
@@ -573,12 +584,24 @@ return _playerInput.currentControlScheme == "Gamepad";
             gameManager.NameChange();
         }
         if(hit.gameObject.tag == "Ice") {
-            
+            path[0] = this.transform.position;
             silde = true;
             for(int u = 0; u < kaidan.Length; u++) {
                 kaidan[u].enabled = false;
             }
             MoveSlide();
+        }
+    }
+
+    public void SwitchPath(int count) {
+        switch(count) {
+            case 1:
+                path[1] = new Vector3(68.59f, 8.33f, -2.16f);
+                path[2] = new Vector3(80.48f, -1.03f, -2.16f);
+                break;
+            case 2:
+                path[1] = new Vector3(80.48f, -1.03f, -2.16f);
+                break;
         }
     }
 
@@ -653,16 +676,11 @@ return _playerInput.currentControlScheme == "Gamepad";
             gameManager.DESSPOS =  col.transform.position;
         }
     }
+
+    
     bool y = false;
     void MoveSlide() {
-         //if(path[0].x < path[1].x) {
-           //    y = true;
-         //}
-
-        //if(y) {
-            this.transform.DOPath(path, 2f);
-          //  y = false;
-        //} 
+         this.transform.DOPath(path, 3.5f);
     }
 
     private void OnTriggerExit(Collider col)
