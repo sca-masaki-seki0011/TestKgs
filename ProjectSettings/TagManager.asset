@@ -15,6 +15,7 @@ TagManager:
   - mission
   - CheckPoint
   - bokin
+  - Ice
   layers:
   - Default
   - TransparentFX
