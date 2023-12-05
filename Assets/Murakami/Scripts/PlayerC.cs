@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerC : MonoBehaviour
@@ -47,6 +48,15 @@ public class PlayerC : MonoBehaviour
     private Animator anim = null;
 
     [SerializeField] MeshCollider[] planeCol;
+
+    Vector3[] path=
+    {
+        new Vector3(56.13f,13.79f,-2.32f),
+        new Vector3(63.57f,8.46f,-2.16f),
+        new Vector3(68.59f,8.33f,-2.16f),
+        new Vector3(80.48f,-1.03f,-2.16f)
+    };
+    [SerializeField] BoxCollider[] kaidan;
 
     #endregion
 
@@ -219,6 +229,7 @@ public class PlayerC : MonoBehaviour
 
     void Start()
     {
+      
         _input = GetComponent<StarterAssetsInputs>();
         for(int u = 0; u < planeCol.Length; u++) {
             planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
@@ -236,6 +247,7 @@ public class PlayerC : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("パス0"+path[0]);
         if(missio) {
             missioTime += Time.deltaTime;
         }
@@ -271,39 +283,25 @@ return _playerInput.currentControlScheme == "Gamepad";
         }
     }
 
-    /*
-    //カメラをゲームパッドの右スティックで動く為の関数
-    public void CameraRotation() {
-
-
-        //入力があるときにカメラが固定されていない場合
-        if(_input.look.sqrMagnitude >= _threshold && !LockCameraPosition) {
-
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-        }
-
-        // 回転を360度に制限する
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-
-        // Cinemachineの内容に反映する
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-            _cinemachineTargetYaw, 0.0f);
-    }
-    */
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax) {
         if(lfAngle < -360f) lfAngle += 360f;
         if(lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
-
+    bool silde = false;
     #region//ボタン処理
     //移動アクション
     public void OnMove(InputAction.CallbackContext context)
     {
+       
+       if(silde) {
+            DOTween.KillAll();
+            for(int u = 0; u < kaidan.Length; u++) {
+                kaidan[u].enabled = true;
+            }
+            silde = false;
+        }
+        
         _inputMove = context.ReadValue<Vector2>();
         //移動量の入力
      
@@ -557,6 +555,10 @@ return _playerInput.currentControlScheme == "Gamepad";
         
     }
 
+    void MoveSlide() {
+        this.transform.DOPath(path,10f);
+    }
+
 
 
     private void OnTriggerEnter(Collider col)
@@ -622,7 +624,14 @@ return _playerInput.currentControlScheme == "Gamepad";
             }
         }
 
-      
+        if(col.tag == "Ice") {
+            path[0] = this.transform.position;
+            silde = true;
+            for(int u = 0; u < kaidan.Length; u++) {
+                kaidan[u].enabled = false;
+            }
+            MoveSlide();
+        }
 
         if(col.tag == "CheckPoint") {
 
@@ -637,6 +646,8 @@ return _playerInput.currentControlScheme == "Gamepad";
         {
             onTramporin = false;
         }
+
+       
     }
     #endregion
 
