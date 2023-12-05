@@ -43,8 +43,9 @@ public class SousaUIContorller : MonoBehaviour
     
     //‚±‚±‰ü—Ç‚·‚é
     IEnumerator LoadScene() {
+        yield return null;
         AsyncOperation async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
-        //async.allowSceneActivation = false;
+        async.allowSceneActivation = false;
         while(!async.isDone) {
             _slider.value = async.progress;
 
@@ -53,9 +54,9 @@ public class SousaUIContorller : MonoBehaviour
             //Pagecount = (int)async.progress%5;
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
-                //if(Gamepad.current.bButton.isPressed) {
-                    //async.allowSceneActivation = true;
-                //}
+                if(Gamepad.current.bButton.isPressed) {
+                    async.allowSceneActivation = true;
+                }
             }
             yield return null;
         }
