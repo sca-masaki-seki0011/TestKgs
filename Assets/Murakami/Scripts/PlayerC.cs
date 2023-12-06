@@ -49,12 +49,7 @@ public class PlayerC : MonoBehaviour
 
     [SerializeField] MeshCollider[] planeCol;
 
-    Vector3[] path = { 
-    new Vector3(56.13f,13.79f,-2.32f),
-    new Vector3(63.57f,8.46f,-2.16f),
-    new Vector3(68.59f,8.33f,-2.16f),
-    new Vector3(80.48f,-1.03f,-2.16f)
-        };
+    
     [SerializeField] BoxCollider[] kaidan;
 
     #endregion
@@ -209,6 +204,15 @@ public class PlayerC : MonoBehaviour
     }
 
     [SerializeField] MissionManager mission;
+    [System.NonSerialized]
+    public Vector3 groundNormal = Vector3.zero;
+
+    private Vector3 lastGroundNormal = Vector3.zero;
+
+    [System.NonSerialized]
+    public Vector3 lastHitPoint = new Vector3(Mathf.Infinity, 0, 0);
+
+    protected float groundAngle = 0;
 
     private void Awake()
     {
@@ -224,12 +228,10 @@ public class PlayerC : MonoBehaviour
         anim = anim.GetComponent<Animator>();
         playerRemain = gameManager.ManagerRemain;
     }
-    private StarterAssetsInputs _input;
+
 
     void Start()
     {
-      
-        _input = GetComponent<StarterAssetsInputs>();
         for(int u = 0; u < planeCol.Length; u++) {
             planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
             planeCol[u].enabled = true;
@@ -251,15 +253,16 @@ public class PlayerC : MonoBehaviour
         
         
         if(_characterController.isGrounded && silde) {
-            playerSpeed = 10f;
+            playerSpeed = 6f;
             StartCoroutine(WaitSpeed());
         } 
-
+        /*
         if(Gamepad.current.leftShoulder.wasPressedThisFrame) {
             for(int u = 0; u < kaidan.Length; u++) {
             kaidan[u].enabled = true;
             }
         }
+        */
         if(missio) {
             missioTime += Time.deltaTime;
         }
@@ -280,6 +283,8 @@ public class PlayerC : MonoBehaviour
             MovePlayer();
         }
     }
+
+    
 
     IEnumerator WaitSpeed() {
         yield return new WaitForSeconds(3.0f);
@@ -311,6 +316,10 @@ return _playerInput.currentControlScheme == "Gamepad";
     {
         if(silde) {
             DOTween.KillAll();
+            for(int u = 0; u < kaidan.Length; u++) {
+                kaidan[u].enabled = true;
+            }
+            silde = false;
         }
        
         _inputMove = context.ReadValue<Vector2>();
@@ -340,9 +349,9 @@ return _playerInput.currentControlScheme == "Gamepad";
             _jumpSpeed = 20f;
             playerSpeed = 10f;
             _verticalVelocity = _jumpSpeed;
-            //for(int u = 0; u < kaidan.Length; u++) {
-            //kaidan[u].enabled = true;
-            // }
+            for(int u = 0; u < kaidan.Length; u++) {
+            kaidan[u].enabled = true;
+            }
             silde = false;
         } else {
             _jumpSpeed = 10f;
@@ -570,6 +579,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         playrPlam = PlayerPlam.Normal;
     }
 
+    
     //ÚGˆ—
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -583,30 +593,58 @@ return _playerInput.currentControlScheme == "Gamepad";
             allGoal = true;
             gameManager.NameChange();
         }
-        if(hit.gameObject.tag == "Ice") {
-            path[0] = this.transform.position;
-            silde = true;
-            for(int u = 0; u < kaidan.Length; u++) {
-                kaidan[u].enabled = false;
-            }
-            MoveSlide();
-        }
+        
+        
+        
     }
-
+    /*
+    Vector3[] path = {
+    new Vector3(56.13f,13.79f,-2.32f),
+    new Vector3(63.57f,8.46f,-2.16f),
+    new Vector3(68.59f,8.33f,-2.16f),
+    new Vector3(80.48f,-1.03f,-2.16f)
+        };
+    */
     public void SwitchPath(int count) {
         switch(count) {
             case 1:
-                path[1] = new Vector3(68.59f, 8.33f, -2.16f);
-                path[2] = new Vector3(80.48f, -1.03f, -2.16f);
+                Vector3[] path = new Vector3[4];
+                path[0] = this.transform.position;
+                path[1] = new Vector3(63.57f, 8.46f, -2.16f);
+                path[2] = new Vector3(68.59f, 8.33f, -2.16f);
+                path[3] = new Vector3(80.48f, -1.03f, -2.16f);
+                MoveSlide(path);
                 break;
             case 2:
-                path[1] = new Vector3(80.48f, -1.03f, -2.16f);
+                Vector3[] paths = new Vector3[3];
+                paths[0] = this.transform.position;
+                paths[1] = new Vector3(68.59f, 8.33f, -2.16f);
+                paths[2] = new Vector3(80.48f, -1.03f, -2.16f);
+                MoveSlide(paths);
+                break;
+            case 3:
+                Vector3[] pathss = new Vector3[2];
+                pathss[0] = this.transform.position;
+                pathss[1] = new Vector3(80.48f, -1.03f, -2.16f);
+                MoveSlide(pathss);
                 break;
         }
+        
+    }
+
+    void MoveSlide(Vector3[] path) {
+        this.transform.DOPath(path, 3.5f);
     }
 
     private void OnTriggerEnter(Collider col)
     {
+        if(col.tag == "Ice") {
+
+            silde = true;
+            for(int u = 0; u < kaidan.Length; u++) {
+                kaidan[u].enabled = false;
+            }
+        }
         if(col.tag == "Tramporin")
         {
             _verticalVelocity = _jumpSpeed / 2;
@@ -679,9 +717,7 @@ return _playerInput.currentControlScheme == "Gamepad";
 
     
     bool y = false;
-    void MoveSlide() {
-         this.transform.DOPath(path, 3.5f);
-    }
+  
 
     private void OnTriggerExit(Collider col)
     {
@@ -692,10 +728,12 @@ return _playerInput.currentControlScheme == "Gamepad";
 
        
     }
+
+   
     #endregion
 
     #region//”ŽšŠÖŒW
- 
+
 
     //ƒAƒCƒeƒ€Šl“¾
     public void GetItem(int getScore, string itemName)
