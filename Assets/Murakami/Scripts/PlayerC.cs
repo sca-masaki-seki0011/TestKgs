@@ -655,7 +655,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         }
         if(col.tag == "holl") {
             if(gameManager.ManagerRemain != 0) {
-                gameManager.ManagerRemain--;
+                //gameManager.ManagerRemain--;
                 if(gameManager.ManagerRemain <= 0) {
                     gameManager.GAMEOVER = true;
                 }
@@ -688,7 +688,7 @@ return _playerInput.currentControlScheme == "Gamepad";
             falling = true;
             _playerInput.enabled = false;
             if(gameManager.ManagerRemain != 0) {
-                gameManager.ManagerRemain--;
+                //gameManager.ManagerRemain--;
                 if(gameManager.ManagerRemain <= 0) {
                     gameManager.GAMEOVER = true;
                 } 

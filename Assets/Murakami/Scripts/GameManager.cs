@@ -131,6 +131,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject zankiIocn;
     Text zankiIconText;
+    [SerializeField] GameObject missText;
 
     // Start is called before the first frame update
     void Start()
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        zankiIconText.text = "Å~" + managerRemain;
+        
         if(GameOver) {
             GameOverActive();
         }
@@ -227,11 +228,11 @@ public class GameManager : MonoBehaviour
     }
     
     private void FixedUpdate() {
-        if(player.FALLING || player.ALLGOAL) {
+        if(!fadeIn && (player.FALLING || player.ALLGOAL)) {
             FadeOut();
         }
         if(fadeIn && managerRemain != 0) {
-            FadeIn();
+            //FadeIn();
             //StartCoroutine(WaitFadeIn());
         }
 
@@ -243,12 +244,17 @@ public class GameManager : MonoBehaviour
         //yield break;
     }
 
+    bool inoti = false;
+
     void FadeOut() {
         if(player.FALLING) {
-            if(managerRemain != 0 && !fadeIn) {
-                zankiIocn.SetActive(true);
-            }
+            StartCoroutine(WaitInoti());
             
+            if(!inoti && P_alfa <= 0.75f) {
+               
+                StartCoroutine(WaitU());
+            }
+
             if(P_alfa < 1.0f) {
                 P_alfa += 0.02f;
                 SetAlpha();
@@ -257,6 +263,7 @@ public class GameManager : MonoBehaviour
                 
                
                 fadeIn = true;
+                
             }
         }
         else if(player.ALLGOAL) {
@@ -268,8 +275,21 @@ public class GameManager : MonoBehaviour
         
     }
 
-   
-   
+    IEnumerator WaitInoti() {
+        missText.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        missText.SetActive(false);
+        zankiIocn.SetActive(true);
+        zankiIconText.text = "Å~" + managerRemain;
+
+    }
+
+    IEnumerator WaitU() {
+        yield return new WaitForSeconds(1.0f);
+        managerRemain--;
+        inoti = true;
+    }
+    
     void FadeIn() {
         player.FALLING = false;
         for(int u = 0; u < plane.Length; u++) {
@@ -286,6 +306,7 @@ public class GameManager : MonoBehaviour
         
         else if(P_alfa <= 0.0f) { 
             fadeIn = false;
+            inoti = false;
         }
     }
 
