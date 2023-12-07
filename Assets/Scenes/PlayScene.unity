@@ -4056,6 +4056,7 @@ GameObject:
   - component: {fileID: 422740397}
   - component: {fileID: 422740399}
   - component: {fileID: 422740398}
+  - component: {fileID: 422740400}
   m_Layer: 5
   m_Name: MissText
   m_TagString: Untagged
@@ -4079,7 +4080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 118.52998, y: 161.8}
+  m_AnchoredPosition: {x: 47.41, y: 605}
   m_SizeDelta: {x: 600, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &422740398
@@ -4109,13 +4110,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 126
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MISS
+  m_Text: MISS!!
 --- !u!222 &422740399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4124,6 +4125,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422740396}
   m_CullTransparentMesh: 1
+--- !u!95 &422740400
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422740396}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc0198c059696f04f9a15dc6c8e5b9cd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &429900902
 GameObject:
   m_ObjectHideFlags: 0

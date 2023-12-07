@@ -289,19 +289,23 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitFadeIn() {
-        yield return new WaitForSeconds(1.0f);
+        for(int u = 0; u < plane.Length; u++) {
+            plane[u].enabled = true;
+        }
+        yield return new WaitForSeconds(2.0f);
         FadeIn();
     }
 
     void FadeIn() {
         player.FALLING = false;
-        for(int u = 0; u < plane.Length; u++) {
-            plane[u].enabled = true;
-        }
-
         playerInput.enabled = true;
-        zankiIocn.SetActive(false);
+        
+       
         RevivePlayer();
+
+
+        zankiIocn.SetActive(false);
+        
         if(P_alfa > 0.0f) {
             P_alfa -= fadeSpeed;
             SetAlpha();
