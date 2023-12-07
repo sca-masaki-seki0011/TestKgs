@@ -231,44 +231,29 @@ public class GameManager : MonoBehaviour
         if(!fadeIn && (player.FALLING || player.ALLGOAL)) {
             FadeOut();
         }
-        if(fadeIn && managerRemain != 0) {
+        //if(fadeIn && managerRemain != 0 && ) {
             //FadeIn();
-            //StartCoroutine(WaitFadeIn());
-        }
+        //}
 
     }
 
-    IEnumerator WaitFadeIn() {
-        yield return new WaitForSeconds(2.0f);
-        FadeIn();
-        //yield break;
-    }
-
-    bool inoti = false;
+  
 
     void FadeOut() {
         if(player.FALLING) {
             StartCoroutine(WaitInoti());
-            
-            if(!inoti && P_alfa <= 0.75f) {
-               
-                StartCoroutine(WaitU());
-            }
-
             if(P_alfa < 1.0f) {
-                P_alfa += 0.02f;
+                P_alfa += fadeSpeed;
                 SetAlpha();
             }
             else if(P_alfa >= 1.0f) {
-                
-               
                 fadeIn = true;
                 
             }
         }
         else if(player.ALLGOAL) {
             if(P_alfa < 0.75f) {
-                P_alfa += 0.02f;
+                P_alfa += fadeSpeed;
                 SetAlpha();
             }
         }
@@ -280,16 +265,34 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         missText.SetActive(false);
         zankiIocn.SetActive(true);
+        zankiIocn.SetActive(true);
         zankiIconText.text = "×" + managerRemain;
-
+        List<IEnumerator> ie = new List<IEnumerator>();
+        ie.Add(WaitU());
+        foreach(IEnumerator item in ie) {
+            StartCoroutine(item);
+            yield return item.Current;// <===ここが重要
+        }
+        yield return null;
     }
 
     IEnumerator WaitU() {
         yield return new WaitForSeconds(1.0f);
         managerRemain--;
-        inoti = true;
+        List<IEnumerator> ie = new List<IEnumerator>();
+        ie.Add(WaitFadeIn());
+        foreach(IEnumerator item in ie) {
+            StartCoroutine(item);
+            yield return item.Current;// <===ここが重要
+        }
+        yield return null;
     }
-    
+
+    IEnumerator WaitFadeIn() {
+        yield return new WaitForSeconds(1.0f);
+        FadeIn();
+    }
+
     void FadeIn() {
         player.FALLING = false;
         for(int u = 0; u < plane.Length; u++) {
@@ -300,13 +303,13 @@ public class GameManager : MonoBehaviour
         zankiIocn.SetActive(false);
         RevivePlayer();
         if(P_alfa > 0.0f) {
-            P_alfa -= 0.009f;
+            P_alfa -= fadeSpeed;
             SetAlpha();
         }
         
         else if(P_alfa <= 0.0f) { 
             fadeIn = false;
-            inoti = false;
+            
         }
     }
 

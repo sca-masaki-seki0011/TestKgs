@@ -167,8 +167,9 @@ public class MissionManager : MonoBehaviour
             //StartCoroutine(WaitMission());
             ActivationMission();
         }
-            
-        if(Gamepad.current.bButton.wasPressedThisFrame) {
+
+        if(Input.GetKeyDown(KeyCode.Return)) { 
+        //if(Gamepad.current.bButton.wasPressedThisFrame) {
             player.enabled = true;
             missionFlag = false;
             mission.SetBool("Mission",true);
