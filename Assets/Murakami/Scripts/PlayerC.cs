@@ -709,8 +709,6 @@ return _playerInput.currentControlScheme == "Gamepad";
         
 
         if(col.tag == "CheckPoint") {
-
-            gameManager.RECOUNT++;
             gameManager.DESSPOS =  col.transform.position;
         }
     }

@@ -106,15 +106,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int reCount = 0;
-    public int RECOUNT {
-        set {
-            this.reCount = value;
-        }
-        get {
-            return this.reCount;
-        }
-    }
+    
 
     bool fadeIn = false;
 
@@ -137,10 +129,13 @@ public class GameManager : MonoBehaviour
         managerRemain = 3;
     }
 
+    [SerializeField] GameObject zankiIocn;
+    Text zankiIconText;
 
     // Start is called before the first frame update
     void Start()
     {
+        zankiIconText = zankiIocn.GetComponentInChildren<Text>();
         gameOverThings.SetActive(false);
         gameClearThings.SetActive(false);
         for(int u = 0; u < plane.Length; u++) {
@@ -171,7 +166,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        zankiIconText.text = "×" + managerRemain;
         if(GameOver) {
             GameOverActive();
         }
@@ -237,28 +232,43 @@ public class GameManager : MonoBehaviour
         }
         if(fadeIn && managerRemain != 0) {
             FadeIn();
+            //StartCoroutine(WaitFadeIn());
         }
 
     }
 
+    IEnumerator WaitFadeIn() {
+        yield return new WaitForSeconds(2.0f);
+        FadeIn();
+        //yield break;
+    }
+
     void FadeOut() {
         if(player.FALLING) {
+            if(managerRemain != 0 && !fadeIn) {
+                zankiIocn.SetActive(true);
+            }
+            
             if(P_alfa < 1.0f) {
-                P_alfa += fadeSpeed;
+                P_alfa += 0.02f;
                 SetAlpha();
             }
             else if(P_alfa >= 1.0f) {
+                
+               
                 fadeIn = true;
             }
         }
         else if(player.ALLGOAL) {
             if(P_alfa < 0.75f) {
-                P_alfa += fadeSpeed;
+                P_alfa += 0.02f;
                 SetAlpha();
             }
         }
         
     }
+
+   
    
     void FadeIn() {
         player.FALLING = false;
@@ -267,16 +277,19 @@ public class GameManager : MonoBehaviour
         }
 
         playerInput.enabled = true;
-        RevivePlayer(reCount);
+        zankiIocn.SetActive(false);
+        RevivePlayer();
         if(P_alfa > 0.0f) {
-            P_alfa -= fadeSpeed;
+            P_alfa -= 0.009f;
             SetAlpha();
-        } else if(P_alfa <= 0.0f) {
-            
+        }
+        
+        else if(P_alfa <= 0.0f) { 
             fadeIn = false;
-            
         }
     }
+
+
 
 
     void SetAlpha() {
@@ -380,7 +393,7 @@ public class GameManager : MonoBehaviour
     /// 残機があった場合の生き返り関数
     /// </summary>
     /// <param name="recount">チェックポイントの数</param>
-    public void RevivePlayer(int recount) {
+    public void RevivePlayer() {
         if(managerRemain != 0) {
             //if(recount == 0) {
                 //ふれていなかったらのチェックポイント
