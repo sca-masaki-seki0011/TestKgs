@@ -133,9 +133,12 @@ public class GameManager : MonoBehaviour
     Text zankiIconText;
     [SerializeField] GameObject missText;
 
+    CharacterController _characterController;
+
     // Start is called before the first frame update
     void Start()
     {
+        _characterController = playerObject.GetComponent<CharacterController>();
         zankiIconText = zankiIocn.GetComponentInChildren<Text>();
         gameOverThings.SetActive(false);
         gameClearThings.SetActive(false);
@@ -167,7 +170,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(fadeIn);
+        if(managerRemain <= 0) {
+            GameOver = true;
+        }
+
         if(GameOver) {
             GameOverActive();
         }
@@ -241,7 +248,10 @@ public class GameManager : MonoBehaviour
 
     void FadeOut() {
         if(player.FALLING) {
-            StartCoroutine(WaitInoti());
+            if(!player.ALLGOAL) {
+                StartCoroutine(WaitInoti());
+            }
+            
             if(P_alfa < 1.0f) {
                 P_alfa += fadeSpeed;
                 SetAlpha();
@@ -251,7 +261,7 @@ public class GameManager : MonoBehaviour
                 
             }
         }
-        else if(player.ALLGOAL) {
+        if(player.ALLGOAL) {
             if(P_alfa < 0.75f) {
                 P_alfa += fadeSpeed;
                 SetAlpha();
@@ -262,7 +272,16 @@ public class GameManager : MonoBehaviour
 
     IEnumerator WaitInoti() {
         missText.SetActive(true);
-        yield return new WaitForSeconds(1.0f);
+      
+        yield return new WaitForSeconds(2.0f);
+        
+        for(int u = 0; u < plane.Length; u++) {
+            plane[u].enabled = true;
+        }
+        RevivePlayer();
+        
+        
+        
         missText.SetActive(false);
         zankiIocn.SetActive(true);
         zankiIocn.SetActive(true);
@@ -271,14 +290,26 @@ public class GameManager : MonoBehaviour
         ie.Add(WaitU());
         foreach(IEnumerator item in ie) {
             StartCoroutine(item);
+            
             yield return item.Current;// <===ここが重要
         }
         yield return null;
     }
 
+    bool remain = false;
     IEnumerator WaitU() {
         yield return new WaitForSeconds(1.0f);
-        managerRemain--;
+        if(!remain) {
+            managerRemain--;
+            
+            remain = true;
+        }
+        _characterController.enabled = true;
+        player.FALLING = false;
+        playerInput.enabled = true;
+       
+
+        
         List<IEnumerator> ie = new List<IEnumerator>();
         ie.Add(WaitFadeIn());
         foreach(IEnumerator item in ie) {
@@ -289,18 +320,13 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitFadeIn() {
-        for(int u = 0; u < plane.Length; u++) {
-            plane[u].enabled = true;
-        }
         yield return new WaitForSeconds(1.0f);
-        player.FALLING = false;
-        RevivePlayer();
-        playerInput.enabled = true;
+
         FadeIn();
     }
 
     void FadeIn() {
-        
+
 
         zankiIocn.SetActive(false);
         
@@ -309,9 +335,10 @@ public class GameManager : MonoBehaviour
             SetAlpha();
         }
         
-        else if(P_alfa <= 0.0f) { 
+        if(P_alfa <= 0.0f) { 
+            Debug.Log("フェイドイン終わったよ");
             fadeIn = false;
-            
+            remain = false;
         }
     }
 

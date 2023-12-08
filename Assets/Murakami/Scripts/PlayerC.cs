@@ -656,17 +656,16 @@ return _playerInput.currentControlScheme == "Gamepad";
         if(col.tag == "holl") {
             if(gameManager.ManagerRemain != 0) {
                 //gameManager.ManagerRemain--;
-                if(gameManager.ManagerRemain <= 0) {
-                    gameManager.GAMEOVER = true;
-                }
+                
             }
             falling = true;
             for(int u = 0; u < planeCol.Length; u++) {
                 planeCol[u].enabled = false;
             }
             _playerInput.enabled = false;
-           
+            StartCoroutine(WaitChara());
         }
+       
 
         
             if(col.tag == "mission") {
@@ -689,18 +688,14 @@ return _playerInput.currentControlScheme == "Gamepad";
             _playerInput.enabled = false;
             if(gameManager.ManagerRemain != 0) {
                 //gameManager.ManagerRemain--;
-                if(gameManager.ManagerRemain <= 0) {
-                    gameManager.GAMEOVER = true;
-                } 
+                
             }
         }
 
         if(col.tag == "Car") {
             if(gameManager.ManagerRemain != 0) {
-                gameManager.ManagerRemain--;
-                if(gameManager.ManagerRemain <= 0) {
-                    gameManager.GAMEOVER = true;
-                }
+                //gameManager.ManagerRemain--;
+               
                 falling = true;
                 _playerInput.enabled = false;
             }
@@ -713,7 +708,12 @@ return _playerInput.currentControlScheme == "Gamepad";
         }
     }
 
-    
+    IEnumerator WaitChara() {
+        yield return new WaitForSeconds(1.0f);
+        _characterController.enabled = false;
+    }
+
+
     bool y = false;
   
 
