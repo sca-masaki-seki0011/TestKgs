@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator WaitInoti() {
         missText.SetActive(true);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         missText.SetActive(false);
         zankiIocn.SetActive(true);
         zankiIocn.SetActive(true);
@@ -292,17 +292,15 @@ public class GameManager : MonoBehaviour
         for(int u = 0; u < plane.Length; u++) {
             plane[u].enabled = true;
         }
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
+        player.FALLING = false;
+        RevivePlayer();
+        playerInput.enabled = true;
         FadeIn();
     }
 
     void FadeIn() {
-        player.FALLING = false;
-        playerInput.enabled = true;
         
-       
-        RevivePlayer();
-
 
         zankiIocn.SetActive(false);
         
