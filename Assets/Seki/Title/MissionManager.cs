@@ -146,7 +146,7 @@ public class MissionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ybutton);
+     
         
         if(!missionFlag && !missionClear && !ybutton) {
             if(Gamepad.current.yButton.wasPressedThisFrame) {

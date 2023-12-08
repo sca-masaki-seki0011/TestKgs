@@ -170,14 +170,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(fadeIn);
-        if(managerRemain <= 0) {
-            GameOver = true;
-        }
-
+        Debug.Log(GameOver);
         if(GameOver) {
+            //GameOver = true;
             GameOverActive();
         }
+
+      
 
         if(zanki) {
           
@@ -271,15 +270,14 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitInoti() {
-        missText.SetActive(true);
-      
+        if(managerRemain != 0) {
+            missText.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         
         for(int u = 0; u < plane.Length; u++) {
             plane[u].enabled = true;
         }
         RevivePlayer();
-        
         
         
         missText.SetActive(false);
@@ -294,9 +292,13 @@ public class GameManager : MonoBehaviour
             yield return item.Current;// <===ここが重要
         }
         yield return null;
+        } else {
+            GameOver = true;
+        }
     }
 
     bool remain = false;
+    bool g = false;
     IEnumerator WaitU() {
         yield return new WaitForSeconds(1.0f);
         if(!remain) {
@@ -307,9 +309,9 @@ public class GameManager : MonoBehaviour
         _characterController.enabled = true;
         player.FALLING = false;
         playerInput.enabled = true;
-       
 
-        
+        if(!GameOver) { 
+
         List<IEnumerator> ie = new List<IEnumerator>();
         ie.Add(WaitFadeIn());
         foreach(IEnumerator item in ie) {
@@ -317,11 +319,16 @@ public class GameManager : MonoBehaviour
             yield return item.Current;// <===ここが重要
         }
         yield return null;
+        } else {
+            //GameOverActive();
+            //g = true;
+            yield break;
+        }
     }
 
     IEnumerator WaitFadeIn() {
         yield return new WaitForSeconds(1.0f);
-
+        
         FadeIn();
     }
 
