@@ -31,9 +31,7 @@ public class SousaUIContorller : MonoBehaviour
         //•\¦‚·‚éƒQ[ƒ€‰æ–Ê‚Ì‰Šú‰»
         for(int i = 0; i< GameImage.Length; i++) {
             GameImage[i].SetActive(false);
-        }
-
-        
+        }  
     }
 
     public void LoadNextScene() {
