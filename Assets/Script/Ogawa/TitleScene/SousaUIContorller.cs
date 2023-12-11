@@ -36,7 +36,7 @@ public class SousaUIContorller : MonoBehaviour
 
     public void LoadNextScene() {
         _loadingUI.SetActive(true);
-        StartCoroutine(LoadScene());
+        //StartCoroutine(LoadScene());
     }
     
     //‚±‚±‰ü—Ç‚·‚é
