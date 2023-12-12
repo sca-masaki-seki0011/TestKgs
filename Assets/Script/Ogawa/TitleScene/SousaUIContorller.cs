@@ -9,11 +9,16 @@ public class SousaUIContorller : MonoBehaviour
 {
     //ページの変数
     int Pagecount = 0;
-    //表示するゲーム画面
-    [SerializeField] GameObject[] GameImage;
-    //ページ数が分かるUI
-    [SerializeField] Image[] NextImage;
 
+    //ステージ関係画面
+    [SerializeField] GameObject[] stageImage;
+
+    //操作説明画面
+    [SerializeField] GameObject[] gameImage;
+    //ページ数が分かるUI
+    [SerializeField] Image[] nextImage;
+
+    //ロードの全体のオブジェクト
     [SerializeField] GameObject _loadingUI;
 
     [SerializeField] private Slider _slider;
@@ -24,14 +29,21 @@ public class SousaUIContorller : MonoBehaviour
 
     bool tips = false;
 
+    int randomtips = 0;
+
     // Start is called before the first frame update
 
     void Start()
     {
         //表示するゲーム画面の初期化
-        for(int i = 0; i< GameImage.Length; i++) {
-            GameImage[i].SetActive(false);
+        for(int i = 0; i< gameImage.Length; i++) {
+            gameImage[i].SetActive(false);
         }  
+        
+        for(int u = 0; u < stageImage.Length; u++) {
+            stageImage[u].SetActive(false);
+        }
+        randomtips = Random.Range(0,2);
     }
 
     public void LoadNextScene() {
@@ -87,7 +99,7 @@ public class SousaUIContorller : MonoBehaviour
             tipsTime = 0f;
            
         }
-        ImageNext(Pagecount);
+        ImageNext(Pagecount, randomtips);
 
 
     }
@@ -96,14 +108,24 @@ public class SousaUIContorller : MonoBehaviour
     /// //Imageの色や非表示、表示などを行う関数
     /// </summary>
     /// <param name="count">ページ数</param>
-    void ImageNext(int count) {
-        for(int i = 0; i < NextImage.Length; i++) {
+    void ImageNext(int count,int random) {
+        for(int i = 0; i < nextImage.Length; i++) {
             if(i == count) {//ページ数が同じなら
-                GameImage[count].SetActive(true);
-                NextImage[count].color = new Color(255,0,0);
+                if(random == 0) {
+                    gameImage[count].SetActive(true);
+                } else {
+                    stageImage[count].SetActive(true);
+                }
+                
+                nextImage[count].color = new Color(255,0,0);
             } else {
-                GameImage[i].SetActive(false);
-                NextImage[i].color = new Color(255, 255, 255);
+                if(random == 0) { 
+                    gameImage[i].SetActive(false);
+                }
+                else {
+                    stageImage[i].SetActive(false);
+                }
+                nextImage[i].color = new Color(255, 255, 255);
             }
         }
     }
