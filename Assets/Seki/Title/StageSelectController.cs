@@ -27,12 +27,12 @@ public class StageSelectController : MonoBehaviour
     }
 
     StageSelectController myScripts;
-   
+    [SerializeField] TitleManager title;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+      
         myScripts = this.GetComponent<StageSelectController>();
         myScripts.enabled = true;
         si = Siabritukeru.GetComponent<SibariTukeru>();
@@ -54,23 +54,28 @@ public class StageSelectController : MonoBehaviour
 
     void StageIconMove() {
         if(Gamepad.current.leftStick.up.wasPressedThisFrame) {
+            
             myPos.localPosition = Pos[0].localPosition;
 
         }
 
         if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
+       
             myPos.localPosition = Pos[1].localPosition;
         }
     }
 
     void StageSelect() {
         if(myPos.localPosition == Pos[0].localPosition) {
+            title.SelectSetumei(0);
             if(Gamepad.current.bButton.isPressed) {
-               normal = true;
+              
+                normal = true;
             }
             
         }
         if(myPos.localPosition == Pos[1].localPosition) {
+            title.SelectSetumei(1);
             if(Gamepad.current.bButton.isPressed) {
         
                 Siabritukeru.SetActive(true);

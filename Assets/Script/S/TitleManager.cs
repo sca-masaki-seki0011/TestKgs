@@ -22,9 +22,19 @@ public class TitleManager : MonoBehaviour
     [SerializeField] StageSelectController stageSelect;
 
     public static string sceneName;
+
+    [SerializeField] GameObject playerImage;
+    [SerializeField] GameObject[] titleSetumeiText;
+    [SerializeField] GameObject[] playerComent;
+
     // Start is called before the first frame update
     void Start()
     {
+        for(int t = 0; t < titleSetumeiText.Length;t++) {
+            titleSetumeiText[t].SetActive(false);
+            playerComent[t].SetActive(false);
+        }
+        playerImage.SetActive(false);
         stageSelect = stageSelect.GetComponent<StageSelectController>();
         Icon = IconObject.GetComponent<IconController>();
         Icon.enabled = false;
@@ -43,6 +53,7 @@ public class TitleManager : MonoBehaviour
     {
         if(Icon.STAGE) {
             Icon.enabled = true;
+            playerImage.SetActive(true);
             IconObject.SetActive(false);
             Icon.STAGE = false;
         }
@@ -69,6 +80,18 @@ public class TitleManager : MonoBehaviour
 #else
     Application.Quit();//ゲームプレイ終了
 #endif
+        }
+    }
+
+    public void SelectSetumei(int count) {
+        for(int u = 0; u < titleSetumeiText.Length; u++) {
+            if(u == count) {
+                titleSetumeiText[count].SetActive(true);
+                playerComent[count].SetActive(true);
+            } else {
+                titleSetumeiText[u].SetActive(false);
+                playerComent[u].SetActive(false);
+            }
         }
     }
 
