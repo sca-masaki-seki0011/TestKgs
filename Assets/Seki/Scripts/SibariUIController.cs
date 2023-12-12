@@ -118,7 +118,7 @@ public class SibariUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(revel);
+        Debug.Log(right);
         RevalWaku(revel);
         if(!next) {
             
@@ -320,7 +320,7 @@ public class SibariUIController : MonoBehaviour
                 }
             }
         } else if(right == 1) {
-            if(myPos.localPosition.y > -597f && myPos.localPosition != DeciePos.localPosition) {
+            if(myPos.localPosition.y > -134f && myPos.localPosition != DeciePos.localPosition) {
                 if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
                     Vector2 p = myPos.localPosition;
                     if(sousaCount < 3) {
@@ -350,7 +350,7 @@ public class SibariUIController : MonoBehaviour
             }
            
             if(right == 2 && sibariCount >= 1) {
-                if(myPos.localPosition != DeciePos.localPosition && myPos.localPosition.x == -31.5f) {
+                if(myPos.localPosition != DeciePos.localPosition && myPos.localPosition.x == 96f) {
                    
                     myPos.localPosition = DeciePos.localPosition;
                 }

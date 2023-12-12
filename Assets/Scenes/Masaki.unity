@@ -197,7 +197,7 @@ MonoBehaviour:
   sibariWaku: {fileID: 440431375}
   DeciePos: {fileID: 1145050264}
   SibariQuestion: {fileID: 2141807799}
-  SibariKind: {fileID: 0}
+  SibariKind: {fileID: 529159698}
 --- !u!114 &8819226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7171,7 +7171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 373.99994, y: -341}
+  m_AnchoredPosition: {x: 373, y: -341}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1213232188
@@ -8533,7 +8533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1510937223
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11843,7 +11843,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2098240553
 RectTransform:
   m_ObjectHideFlags: 0
