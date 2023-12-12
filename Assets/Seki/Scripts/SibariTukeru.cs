@@ -32,10 +32,11 @@ public class SibariTukeru : MonoBehaviour
         }
     }
     SibariUIController sibariKind;
+    [SerializeField] TitleManager titleManager;
     // Start is called before the first frame update
     void Start()
     {
-
+        titleManager.SelectSetumei(2);
         mypos = mypos.GetComponent<RectTransform>();
         sibariKind = sibari.GetComponentInChildren<SibariUIController>();
         

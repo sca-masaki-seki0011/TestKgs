@@ -9,7 +9,7 @@ public class SibariUIController : MonoBehaviour
     [SerializeField] Hontoni ho;
     int sibariCount =0;
     RectTransform myPos;
-    float jyougeSpeed = 161f;
+    float jyougeSpeed = 134f;
     int sousaCount = 0;
 
     [SerializeField] RectTransform[] R_Pos;
@@ -99,8 +99,8 @@ public class SibariUIController : MonoBehaviour
         }
         myPos = this.GetComponent<RectTransform>();
         Vector2 p = myPos.localPosition;
-        p.y = 97f;
-        p.x = -688f;
+        p.y = 134f;
+        p.x = -597f;
         myPos.localPosition = p;
         myComp = this.GetComponent<SibariUIController>();
         for(int i = 0; i < SentakuCount.Length; i++) {
@@ -158,7 +158,6 @@ public class SibariUIController : MonoBehaviour
                 placeCount = 3;
                 SentakuIcon(placeCount);
                 if(Gamepad.current.bButton.wasPressedThisFrame) {
-                    
                     SentakuPoint(placeCount);
                 }
         }
@@ -199,7 +198,6 @@ public class SibariUIController : MonoBehaviour
                 hon = false;
                 myComp.enabled = false;
                 ho.enabled = true;
-
             }
 
             if(sibariCount != 0) {
@@ -232,8 +230,6 @@ public class SibariUIController : MonoBehaviour
 
         if(Gamepad.current.aButton.isPressed) {
             SetApp();
-            ///
-            
             myComp.enabled = false;
             SibariKind.SetActive(false);
             SibariQuestion.SetActive(true);
@@ -284,7 +280,7 @@ public class SibariUIController : MonoBehaviour
     /// スティックで上を押した関数
     /// </summary>
     void InputUpStick() {
-        if(myPos.localPosition.y < 97f && myPos.localPosition != DeciePos.localPosition) {
+        if(myPos.localPosition.y < 134f && myPos.localPosition != DeciePos.localPosition) {
             if(Gamepad.current.leftStick.up.wasPressedThisFrame) {
                 Vector2 p = myPos.localPosition;
                 if(sousaCount > -1) {
@@ -306,7 +302,7 @@ public class SibariUIController : MonoBehaviour
     void InputDownStick(int right) {
         if(right == 0) {
 
-            if(myPos.localPosition.y > -380f && myPos.localPosition != DeciePos.localPosition) {
+            if(myPos.localPosition.y > -268f && myPos.localPosition != DeciePos.localPosition) {
                 if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
                     Vector2 p = myPos.localPosition;
                     if(sousaCount < 3) {
@@ -324,7 +320,7 @@ public class SibariUIController : MonoBehaviour
                 }
             }
         } else if(right == 1) {
-            if(myPos.localPosition.y > -219f && myPos.localPosition != DeciePos.localPosition) {
+            if(myPos.localPosition.y > -597f && myPos.localPosition != DeciePos.localPosition) {
                 if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
                     Vector2 p = myPos.localPosition;
                     if(sousaCount < 3) {

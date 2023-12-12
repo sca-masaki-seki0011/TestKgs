@@ -27,10 +27,12 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject[] titleSetumeiText;
     [SerializeField] GameObject[] playerComent;
     [SerializeField] GameObject playerModel;
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = playerModel.GetComponent<Animator>();
         playerModel.SetActive(false);
         for(int t = 0; t < titleSetumeiText.Length;t++) {
             titleSetumeiText[t].SetActive(false);
@@ -87,6 +89,20 @@ public class TitleManager : MonoBehaviour
     }
 
     public void SelectSetumei(int count) {
+        switch(count) {
+            case 0:
+                anim.SetBool("ganba", false);
+                anim.SetBool("hazu",true);
+                break;
+            case 1:
+                anim.SetBool("hazu", false);
+                anim.SetBool("ganba", true);
+                break;
+            case 2:
+                anim.SetBool("ganba", false);
+                anim.SetBool("quetion", true);
+                break;
+        }
         for(int u = 0; u < titleSetumeiText.Length; u++) {
             if(u == count) {
                 titleSetumeiText[count].SetActive(true);
