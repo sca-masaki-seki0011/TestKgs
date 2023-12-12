@@ -107,7 +107,7 @@ public class PauseManager : MonoBehaviour
            }
 
            if(myPos.localPosition == Point[2].localPosition) {
-                if(Gamepad.current.bButton.isPressed) {
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
                     TitleManager.sceneName = "Masaki";
                     SceneManager.LoadScene("LoadScene");
                 }

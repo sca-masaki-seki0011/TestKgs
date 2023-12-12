@@ -26,10 +26,12 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject playerImage;
     [SerializeField] GameObject[] titleSetumeiText;
     [SerializeField] GameObject[] playerComent;
+    [SerializeField] GameObject playerModel;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerModel.SetActive(false);
         for(int t = 0; t < titleSetumeiText.Length;t++) {
             titleSetumeiText[t].SetActive(false);
             playerComent[t].SetActive(false);
@@ -54,6 +56,7 @@ public class TitleManager : MonoBehaviour
         if(Icon.STAGE) {
             Icon.enabled = true;
             playerImage.SetActive(true);
+            playerModel.SetActive(true);
             IconObject.SetActive(false);
             Icon.STAGE = false;
         }

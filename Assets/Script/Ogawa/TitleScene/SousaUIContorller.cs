@@ -30,7 +30,7 @@ public class SousaUIContorller : MonoBehaviour
     bool tips = false;
 
     int randomtips = 0;
-
+    AsyncOperation async;
     // Start is called before the first frame update
 
     void Start()
@@ -44,17 +44,18 @@ public class SousaUIContorller : MonoBehaviour
             stageImage[u].SetActive(false);
         }
         randomtips = Random.Range(0,2);
+        LoadNextScene();
     }
 
     public void LoadNextScene() {
         _loadingUI.SetActive(true);
-        //StartCoroutine(LoadScene());
+        StartCoroutine(LoadScene());
     }
     
     //‚±‚±‰ü—Ç‚·‚é
     IEnumerator LoadScene() {
         yield return null;
-        AsyncOperation async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
+        async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
         async.allowSceneActivation = false;
         while(!async.isDone) {
             _slider.value = async.progress;
@@ -64,21 +65,18 @@ public class SousaUIContorller : MonoBehaviour
             //Pagecount = (int)async.progress%5;
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
-                if(Gamepad.current.bButton.isPressed) {
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
                     async.allowSceneActivation = true;
                 }
             }
             yield return null;
         }
-        
-        
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        LoadNextScene();
+        
         Debug.Log(Pagecount);
         
         
