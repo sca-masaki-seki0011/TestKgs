@@ -15,7 +15,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] Image FadeObj;
     float alfa;
 
-    float fadeSpeed = 0.04f;
+    float fadeSpeed = 0.02f;
 
     [SerializeField] Hontoni hontoi;
 
@@ -28,6 +28,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject[] playerComent;
     [SerializeField] GameObject playerModel;
     Animator anim;
+
+    bool fade = false;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +47,7 @@ public class TitleManager : MonoBehaviour
         FadeObj = FadeObj.GetComponent<Image>();
         alfa = FadeObj.color.a;
         sibaritukeru = SibaritukeruObject.GetComponent<SibariTukeru>();
-        Invoke("InconActive",1.0f);
+        Invoke("InconActive",0.5f);
     }
 
     void InconActive() {
@@ -68,15 +70,26 @@ public class TitleManager : MonoBehaviour
         }
 
         if(sibaritukeru.NO) {
-            FadeOut();
+            SelectSetumei(5);
+            sibaritukeru.enabled = false;
+            fade = true;
+            
         }
 
         if(hontoi.YES) {
-            FadeOut();
+            SelectSetumei(5);
+            hontoi.enabled = false;
+            
+            fade = true;
+            //FadeOut();
         }
 
         if(stageSelect.NORMAL) {
-            FadeOut();
+            SelectSetumei(5);
+            stageSelect.enabled = false;
+            fade = true;
+            
+            //FadeOut();
         }
 
         if(Gamepad.current.yButton.isPressed) {
@@ -86,6 +99,13 @@ public class TitleManager : MonoBehaviour
     Application.Quit();//ゲームプレイ終了
 #endif
         }
+    }
+
+    private void FixedUpdate() {
+        if(fade) {
+            StartCoroutine(WaitFade());
+        }
+        
     }
 
     public void SelectSetumei(int count) {
@@ -102,6 +122,20 @@ public class TitleManager : MonoBehaviour
                 anim.SetBool("ganba", false);
                 anim.SetBool("quetion", true);
                 break;
+            case 3:
+                anim.SetBool("think",true);
+                anim.SetBool("quetion",false);
+                break;
+            case 4:
+                anim.SetBool("think", false);
+                anim.SetBool("ready", true);
+                break;
+            case 5:
+                anim.SetBool("ready", false);
+                anim.SetBool("quetion", false);
+                anim.SetBool("ok",true);
+                anim.SetBool("hazu", false);
+                break;
         }
         for(int u = 0; u < titleSetumeiText.Length; u++) {
             if(u == count) {
@@ -114,6 +148,10 @@ public class TitleManager : MonoBehaviour
         }
     }
 
+    IEnumerator WaitFade() {
+        yield return new WaitForSeconds(2.0f);
+        FadeOut();
+    }
 
     void FadeOut() {
         alfa += fadeSpeed;
@@ -122,6 +160,7 @@ public class TitleManager : MonoBehaviour
             sibaritukeru.NO = false;
             hontoi.YES = false;
             stageSelect.NORMAL = false;
+            fade = false;
             sceneName = "PlayScene";
             SceneManager.LoadScene("LoadScene");
         }
@@ -130,11 +169,4 @@ public class TitleManager : MonoBehaviour
     void SetAlpha() {
         FadeObj.color = new Color(0, 0, 0, alfa);
     }
-
-    /*
-    IEnumerator IconScirpts() {
-        yield return new WaitForSeconds(1.0f);
-        Icon.enabled = true;
-    }
-    */
 }

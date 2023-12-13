@@ -85,7 +85,7 @@ public class StageSelectController : MonoBehaviour
     }
 
     IEnumerator SibariActive() {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         si.enabled = true;
         myScripts.enabled = false;
     }

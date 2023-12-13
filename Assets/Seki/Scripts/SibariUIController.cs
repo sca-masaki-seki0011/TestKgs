@@ -71,9 +71,12 @@ public class SibariUIController : MonoBehaviour
     [SerializeField] GameObject SibariQuestion;
     [SerializeField] GameObject SibariKind;
     int right;
+    [SerializeField] TitleManager titleManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        titleManager.SelectSetumei(3);
         SetApp();
     }
 

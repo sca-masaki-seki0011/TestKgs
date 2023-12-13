@@ -9,7 +9,6 @@ public class SibariTukeru : MonoBehaviour
     [SerializeField] RectTransform mypos;
     [SerializeField] RectTransform[] handan;
     [SerializeField] GameObject sibari;
-    [SerializeField] GameObject Title;
     bool sibariFlag = false;
 
     bool no = false;
@@ -54,16 +53,15 @@ public class SibariTukeru : MonoBehaviour
 
         if(!sibariFlag) {
             if(mypos.localPosition == handan[0].localPosition) {
-                if(Gamepad.current.bButton.isPressed) {
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
                     sibariFlag = true;
                     sibariKind.enabled = true;
                     sibari.SetActive(true);
                 }
             }
             if(mypos.localPosition == handan[1].localPosition) {
-                if(Gamepad.current.bButton.isPressed) {
-                    sibariFlag = true;
-                    Title.SetActive(true);
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
+                    //sibariFlag = true;
                     no = true;
                 }
             }

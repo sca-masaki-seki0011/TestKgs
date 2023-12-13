@@ -21,7 +21,10 @@ public class SousaUIContorller : MonoBehaviour
     //ロードの全体のオブジェクト
     [SerializeField] GameObject _loadingUI;
 
-    [SerializeField] private Slider _slider;
+    [SerializeField] GameObject okText;
+
+    [SerializeField] GameObject sliderBar;
+    Slider _slider;
 
     [SerializeField] private Text _text;
 
@@ -35,6 +38,8 @@ public class SousaUIContorller : MonoBehaviour
 
     void Start()
     {
+        okText.SetActive(false);
+        _slider = sliderBar.GetComponent<Slider>();
         //表示するゲーム画面の初期化
         for(int i = 0; i< gameImage.Length; i++) {
             gameImage[i].SetActive(false);
@@ -52,6 +57,8 @@ public class SousaUIContorller : MonoBehaviour
         StartCoroutine(LoadScene());
     }
     
+    bool ok = false;
+
     //ここ改良する
     IEnumerator LoadScene() {
         yield return null;
@@ -65,12 +72,20 @@ public class SousaUIContorller : MonoBehaviour
             //Pagecount = (int)async.progress%5;
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
-                if(Gamepad.current.bButton.wasPressedThisFrame) {
+                sliderBar.SetActive(false);
+                StartCoroutine(Waitok());
+                if(ok && Gamepad.current.bButton.wasPressedThisFrame) {
                     async.allowSceneActivation = true;
                 }
             }
             yield return null;
         }
+    }
+
+    IEnumerator Waitok() {
+        yield return new WaitForSeconds(2.0f);
+        _text.enabled = false;
+        okText.SetActive(false);
     }
 
     // Update is called once per frame
