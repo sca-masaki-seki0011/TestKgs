@@ -34,11 +34,14 @@ public class SousaUIContorller : MonoBehaviour
 
     int randomtips = 0;
     AsyncOperation async;
+
+   
     // Start is called before the first frame update
 
     void Start()
     {
         okText.SetActive(false);
+        
         _slider = sliderBar.GetComponent<Slider>();
         //ï\é¶Ç∑ÇÈÉQÅ[ÉÄâÊñ ÇÃèâä˙âª
         for(int i = 0; i< gameImage.Length; i++) {
@@ -72,6 +75,7 @@ public class SousaUIContorller : MonoBehaviour
             //Pagecount = (int)async.progress%5;
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
+                
                 sliderBar.SetActive(false);
                 StartCoroutine(Waitok());
                 if(ok && Gamepad.current.bButton.wasPressedThisFrame) {
@@ -83,18 +87,19 @@ public class SousaUIContorller : MonoBehaviour
     }
 
     IEnumerator Waitok() {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         _text.enabled = false;
-        okText.SetActive(false);
+        okText.SetActive(true);
+        ok = true;
     }
+
 
     // Update is called once per frame
     void Update()
     {
         
         Debug.Log(Pagecount);
-        
-        
+   
         if(!tips) {
             tipsTime += Time.deltaTime;
             if((int)tipsTime != 0 && (int)tipsTime % 5 == 0) {
@@ -103,6 +108,7 @@ public class SousaUIContorller : MonoBehaviour
         }
        
         if(tips) {
+        
             tips = false;
             if(Pagecount == 4) {
                 Pagecount = 0;
