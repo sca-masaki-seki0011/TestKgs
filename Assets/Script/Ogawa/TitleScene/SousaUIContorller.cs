@@ -35,6 +35,7 @@ public class SousaUIContorller : MonoBehaviour
     int randomtips = 0;
     AsyncOperation async;
 
+    [SerializeField] Animator anim;
    
     // Start is called before the first frame update
 
@@ -68,7 +69,7 @@ public class SousaUIContorller : MonoBehaviour
         async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
         async.allowSceneActivation = false;
         while(!async.isDone) {
-            _slider.value = async.progress;
+            //_slider.value = async.progress;
 
             _text.text = (async.progress * 100).ToString() + "%";
 
@@ -76,7 +77,6 @@ public class SousaUIContorller : MonoBehaviour
             if(async.progress >= 0.9f) {
                 _text.text = "100%";
                 
-                sliderBar.SetActive(false);
                 StartCoroutine(Waitok());
                 if(ok && Gamepad.current.bButton.wasPressedThisFrame) {
                     async.allowSceneActivation = true;
@@ -88,6 +88,7 @@ public class SousaUIContorller : MonoBehaviour
 
     IEnumerator Waitok() {
         yield return new WaitForSeconds(1.0f);
+        //sliderBar.SetActive(false);
         _text.enabled = false;
         okText.SetActive(true);
         ok = true;
@@ -107,8 +108,12 @@ public class SousaUIContorller : MonoBehaviour
             }
         }
        
+        if(_slider.value >= 1.0f) {
+            anim.SetBool("Fall",true);
+        }
+
         if(tips) {
-        
+            _slider.value += 0.1f;
             tips = false;
             if(Pagecount == 4) {
                 Pagecount = 0;
