@@ -61,7 +61,7 @@ public class SousaUIContorller : MonoBehaviour
 
     public void LoadNextScene() {
         _loadingUI.SetActive(true);
-        //StartCoroutine(LoadScene());
+        StartCoroutine(LoadScene());
     }
     
     bool ok = false;
@@ -72,7 +72,7 @@ public class SousaUIContorller : MonoBehaviour
         async = SceneManager.LoadSceneAsync(TitleManager.sceneName);
         async.allowSceneActivation = false;
         while(!async.isDone) {
-            //_slider.value = async.progress*100;
+            _slider.value = async.progress*100;
 
             _text.text = (async.progress * 100).ToString() + "%";
 
@@ -81,8 +81,8 @@ public class SousaUIContorller : MonoBehaviour
                 _slider.value = 100.0f;
                 _text.text = "100%";
                 
-                StartCoroutine(Waitok());
-                if(ok && Gamepad.current.bButton.wasPressedThisFrame) {
+                //StartCoroutine(Waitok());
+                if(Gamepad.current.bButton.wasPressedThisFrame) {//ok && 
                     async.allowSceneActivation = true;
                 }
             }
