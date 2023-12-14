@@ -10157,25 +10157,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &938822403
-Animator:
-  serializedVersion: 3
+--- !u!65 &938822403
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938822402}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e463f96128e6ca946ad3e8f24d15e61f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  serializedVersion: 2
+  m_Size: {x: 3.02, y: 2.03, z: 1.77}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!4 &938822404
 Transform:
   m_ObjectHideFlags: 0
@@ -13987,6 +13981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1304652407}
   - component: {fileID: 1304652406}
+  - component: {fileID: 1304652408}
   m_Layer: 0
   m_Name: HazureTresurechest
   m_TagString: Untagged
@@ -14026,6 +14021,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 56
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1304652408
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304652405}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.78, y: 1.69, z: 1}
+  m_Center: {x: 0, y: 0, z: 2.08}
 --- !u!1 &1312426461
 GameObject:
   m_ObjectHideFlags: 0
@@ -20650,6 +20658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2007027539}
+  - component: {fileID: 2007027540}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -20675,6 +20684,19 @@ Transform:
   m_Father: {fileID: 8327351399685942426}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2007027540
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007027538}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.1, y: 2.1, z: 1.77}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &2012493543
 GameObject:
   m_ObjectHideFlags: 0
@@ -31178,6 +31200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8327351399685942426}
   - component: {fileID: 8708661329811060257}
+  - component: {fileID: 8708661329811060258}
   m_Layer: 0
   m_Name: Tresurechest
   m_TagString: Untagged
@@ -31200,6 +31223,19 @@ MonoBehaviour:
   treasure: {fileID: 1906430242}
   item: {fileID: 358543673}
   treasureObj: {fileID: 2007027538}
+--- !u!65 &8708661329811060258
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8708661329811060256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.78, y: 1.69, z: 1}
+  m_Center: {x: 0, y: 0.4, z: 2}
 --- !u!4 &8719470670705642279
 Transform:
   m_ObjectHideFlags: 0
