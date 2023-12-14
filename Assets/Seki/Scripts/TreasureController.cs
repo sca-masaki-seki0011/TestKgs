@@ -6,15 +6,31 @@ using UnityEngine.InputSystem;
 public class TreasureController : MonoBehaviour
 {
     [SerializeField] Animator treasure;
+    [SerializeField] Animator item;
+    [SerializeField] GameObject treasureObj;
     // Start is called before the first frame update
     void Start()
     {
-        
+        treasure.enabled = false;
+        item.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    private void OnTriggerEnter(Collider col) {
+        if(col.tag == "Player") {
+            treasure.enabled = true;
+            item.enabled = true;
+            StartCoroutine(WaitNotActive());
+        }
+    }
+
+    IEnumerator WaitNotActive() {
+        yield return new WaitForSeconds(4.0f);
+        treasureObj.SetActive(false);
     }
 }
