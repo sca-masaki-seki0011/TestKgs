@@ -21,11 +21,10 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void Start() {
-        stageMusic = SceneManager.GetActiveScene().name;
-        if(stageMusic == "Masaki") {
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            player = GameObject.Find("MoveMotinon_2").GetComponent<PlayerC>();
+        for(int i = 0; i < musicObj.Length; i++) {
+            musicObj[i].SetActive(false);
         }
     }
 
@@ -33,6 +32,10 @@ public class MusicManager : MonoBehaviour
     void Update()
     {
         stageMusic = SceneManager.GetActiveScene().name;
+        if(stageMusic == "PlayScene") {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            player = GameObject.Find("MoveMotinon_2").GetComponent<PlayerC>();
+        }
         SelectMusic(SelectStageCount(stageMusic));
     }
     int c;
