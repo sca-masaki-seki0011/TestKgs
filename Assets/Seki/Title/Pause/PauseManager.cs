@@ -45,9 +45,15 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField] Image[] KeyImage;
 
+    [SerializeField] GameObject RestartUI;
+    bool restart = false;
+    [SerializeField] RectTransform restartIcon;
+    [SerializeField] RectTransform[] restartPos;
+
     // Start is called before the first frame update
     void Start()
     {
+        RestartUI.SetActive(false);
         for(int i = 0; i < Point.Length; i++) {
             Point[i] = Point[i].GetComponent<RectTransform>();
         }
@@ -79,23 +85,9 @@ public class PauseManager : MonoBehaviour
         }
         
         //ポーズ中
-        if(pause) {
-           
-            if(selectCount > 0) {
-                if(Gamepad.current.leftStick.up.wasPressedThisFrame) {
-                    selectCount--;
-                    myPos.localPosition = Point[selectCount].localPosition;
-                }
-            }
+        if(pause && !restart) {
 
-            if(selectCount < 2) {
-                if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
-
-                    selectCount++;
-                    myPos.localPosition = Point[selectCount].localPosition;
-                }
-               
-            }
+            pauseIconMove();
 
            if(myPos.localPosition == Point[0].localPosition) {
                 if(Gamepad.current.bButton.isPressed) {
@@ -106,7 +98,14 @@ public class PauseManager : MonoBehaviour
                 }
            }
 
-           if(myPos.localPosition == Point[2].localPosition) {
+            if(myPos.localPosition == Point[1].localPosition) {
+                if(Gamepad.current.bButton.isPressed) {
+                    StartCoroutine(WaitRestart(1));
+                   
+                }
+            }
+
+            if(myPos.localPosition == Point[2].localPosition) {
                 if(Gamepad.current.bButton.wasPressedThisFrame) {
                     TitleManager.sceneName = "Masaki";
                     SceneManager.LoadScene("LoadScene");
@@ -115,7 +114,7 @@ public class PauseManager : MonoBehaviour
             
         } 
         //ポーズ中じゃない
-        else if(!mission.MISSIONFLAG) {//
+        else if(!mission.MISSIONFLAG && !restart) {//
             if(Gamepad.current.startButton.isPressed) {
                 pause = true;
                 isFadeFlag = true;
@@ -124,8 +123,59 @@ public class PauseManager : MonoBehaviour
             }
         }
 
+        if(restart) {
+            RestartUI.SetActive(true);
+            restartIconMove();
+            if(restartIcon.localPosition == restartPos[0].localPosition) {
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
+                    TitleManager.sceneName = "PlayScene";
+                    SceneManager.LoadScene("LoadScene");
+                }
+            }
+            if(restartIcon.localPosition == restartPos[1].localPosition) {
+                if(Gamepad.current.bButton.wasPressedThisFrame) {
+                    StartCoroutine(WaitRestart(2));
+                }
+            }
+        }
+    }
+    IEnumerator WaitRestart(int c) {
+        yield return new WaitForSeconds(0.3f);
+        if (c == 1)
+        {
+            restart = true;
+        }
+        else if(c == 2) {
+            restart = false;
+            RestartUI.SetActive(false);
+        }
+    }
 
-        
+    void restartIconMove() {
+        if(Gamepad.current.leftStick.left.wasPressedThisFrame) {
+            restartIcon.localPosition = restartPos[0].localPosition;
+        }
+        if(Gamepad.current.leftStick.right.wasPressedThisFrame) {
+            restartIcon.localPosition = restartPos[1].localPosition;
+        }
+    }
+
+    void pauseIconMove() {
+        if(selectCount > 0) {
+            if(Gamepad.current.leftStick.up.wasPressedThisFrame) {
+                selectCount--;
+                myPos.localPosition = Point[selectCount].localPosition;
+            }
+        }
+
+        if(selectCount < 2) {
+            if(Gamepad.current.leftStick.down.wasPressedThisFrame) {
+
+                selectCount++;
+                myPos.localPosition = Point[selectCount].localPosition;
+            }
+
+        }
     }
 
     private void FixedUpdate() {
