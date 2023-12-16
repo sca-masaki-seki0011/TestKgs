@@ -167,12 +167,13 @@ public class MissionManager : MonoBehaviour
             ActivationMission();
         }
 
-        //if(Input.GetKeyDown(KeyCode.Return)) { 
+        if(missionFlag) { 
         if(Gamepad.current.bButton.wasPressedThisFrame) {
             player.enabled = true;
             missionFlag = false;
             mission.SetBool("Mission",true);
             StartCoroutine(NotUI());
+        }
         }
 
         if(missionCount > 2) {
@@ -197,6 +198,7 @@ public class MissionManager : MonoBehaviour
         }
         if(missionClear) {
             sousaCount = 0;
+            missionObj[ransu].SetActive(false);
             StartCoroutine(WaitMission());
             
         }

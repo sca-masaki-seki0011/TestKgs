@@ -11,11 +11,14 @@ public class TreasureController : MonoBehaviour
     [SerializeField] int treasureCount;
     [SerializeField] MissionManager mission;
     [SerializeField] PlayerC play;
+    AudioSource audio;
     // Start is called before the first frame update
     void Start()
     {
         treasure.enabled = false;
         item.enabled = false;
+        audio= this.GetComponent<AudioSource>();
+        audio.enabled = false;
     }
 
     // Update is called once per frame
@@ -28,7 +31,7 @@ public class TreasureController : MonoBehaviour
         if(col.tag == "Player") {
             treasure.enabled = true;
             item.enabled = true;
-            
+            audio.enabled = true;
             StartCoroutine(WaitNotActive());
         }
     }
