@@ -21,8 +21,8 @@ public class ItemC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        count += 0.01f;
-        transform.position += new Vector3(0, (Mathf.Sin(count / 50)) * (Time.deltaTime) / 10, 0);
+        //count += 0.01f;
+        //transform.position += new Vector3(0, (Mathf.Sin(count / 50)) * (Time.deltaTime) / 10, 0);
         this.transform.Rotate(0, 0, 0.3f);
     }
 

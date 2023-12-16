@@ -22,7 +22,7 @@ public class MissionManager : MonoBehaviour
     //ミッション内容表示テキストUIとAnimation
    [SerializeField] Animator[] missionAnim;
     [SerializeField] Text[] misionValueText;
-    int[] missionValue = new int[3];
+    int[] missionValue = new int[4];
     public int[] MISSIONVALUE {
         set {
             this.missionValue = value;
@@ -33,7 +33,7 @@ public class MissionManager : MonoBehaviour
     }
     int sousaCount = 0;
     [SerializeField]
-    int[] missionMaxValue = new int[3];
+    int[] missionMaxValue = new int[4];
     //[SerializeField] Transform[] missionObjPos;//ミッションのオブジェクトの座標
 
     //ミッションの進捗変数
@@ -93,7 +93,7 @@ public class MissionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i <= 2; i++) {
+        for(int i = 0; i <= 3; i++) {
             numbers.Add(i);
         }
         for(int i = 0; i < missionAnim.Length; i++) {
@@ -146,7 +146,7 @@ public class MissionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
+     Debug.Log(numbers.Count + "乱数" + ransu);
         
         if(!missionFlag && !missionClear && !ybutton) {
             if(Gamepad.current.yButton.wasPressedThisFrame) {
@@ -225,9 +225,6 @@ public class MissionManager : MonoBehaviour
             randomMissionCount = Random.Range(0, numbers.Count);
             ransu = numbers[randomMissionCount];
             numbers.RemoveAt(randomMissionCount);
-            
-
-            
         }
 
         if(missionCount != 3) {
@@ -259,11 +256,7 @@ public class MissionManager : MonoBehaviour
     }
 
     public void KeyActive(int count) {
-        
-       
         Key[count].SetActive(true);
-        
-        
     }
 
     IEnumerator DelayMission() {

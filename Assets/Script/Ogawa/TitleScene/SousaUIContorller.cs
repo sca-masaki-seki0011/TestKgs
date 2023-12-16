@@ -81,7 +81,7 @@ public class SousaUIContorller : MonoBehaviour
                 _slider.value = 100.0f;
                 _text.text = "100%";
                 
-                //StartCoroutine(Waitok());
+                StartCoroutine(Waitok());
                 if(Gamepad.current.bButton.wasPressedThisFrame) {//ok && 
                     async.allowSceneActivation = true;
                 }
@@ -92,7 +92,7 @@ public class SousaUIContorller : MonoBehaviour
 
     IEnumerator Waitok() {
         yield return new WaitForSeconds(1.0f);
-        //sliderBar.SetActive(false);
+        sliderBar.SetActive(false);
         _text.enabled = false;
         okText.SetActive(true);
         playerObj.SetActive(false);

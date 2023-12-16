@@ -27,10 +27,12 @@ public class MissionDistanceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mission.RADOMMISSIONCOUNT != -1) {
+        if(mission.RADOMMISSIONCOUNT != -1 && mission.RADOMMISSIONCOUNT != 3) {
             distance = Vector3.Distance(player.transform.position,MissionObject[mission.RADOMMISSIONCOUNT].transform.position);
             intDistance = (int)distance;
+        
             DistanceText[mission.RADOMMISSIONCOUNT].text = intDistance.ToString() + "m";
+            
         }
     }
 }

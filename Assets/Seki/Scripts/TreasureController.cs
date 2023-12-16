@@ -27,6 +27,7 @@ public class TreasureController : MonoBehaviour
         if(col.tag == "Player") {
             treasure.enabled = true;
             item.enabled = true;
+            
             StartCoroutine(WaitNotActive());
         }
     }
@@ -35,6 +36,7 @@ public class TreasureController : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         if(treasureCount == 1) {
             mission.MISSIONVALUE[mission.RADOMMISSIONCOUNT]++;
+            mission.KeyActive(mission.RADOMMISSIONCOUNT);
         }
         treasureObj.SetActive(false);
     }
