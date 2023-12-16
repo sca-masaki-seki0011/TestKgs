@@ -8,6 +8,8 @@ public class TreasureController : MonoBehaviour
     [SerializeField] Animator treasure;
     [SerializeField] Animator item;
     [SerializeField] GameObject treasureObj;
+    [SerializeField] int treasureCount;
+    [SerializeField] MissionManager mission;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,9 @@ public class TreasureController : MonoBehaviour
 
     IEnumerator WaitNotActive() {
         yield return new WaitForSeconds(4.0f);
+        if(treasureCount == 1) {
+            mission.MISSIONVALUE[mission.RADOMMISSIONCOUNT]++;
+        }
         treasureObj.SetActive(false);
     }
 }
