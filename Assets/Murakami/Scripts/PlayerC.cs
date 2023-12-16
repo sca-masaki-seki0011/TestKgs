@@ -244,6 +244,14 @@ public class PlayerC : MonoBehaviour
     }
 
     bool missio = false;
+    public bool MISSIO {
+        set {
+            missio = value;
+        }
+        get {
+            return missio;
+        }
+    }
     float missioTime;
 
     void Update()
