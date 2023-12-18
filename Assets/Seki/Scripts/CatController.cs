@@ -62,10 +62,10 @@ public class CatController : MonoBehaviour
         Debug.Log(agent.pathPending);
         
         //if((!bareta&& !syukai)) {
-            if(!agent.pathPending && agent.remainingDistance < 0.5f && !move) {
-                
-                GotoNextPoint();
-                move = true;
+            if(!agent.pathPending && agent.remainingDistance < 0.5f ) {//&& !move
+
+            GotoNextPoint();
+                //move = true;
             } 
         //}
         
@@ -161,7 +161,7 @@ public class CatController : MonoBehaviour
         agent.destination = points[destPoint].position;
         destPoint = (destPoint + 1) % points.Length;
         
-        StartCoroutine(Waitmove());
+        //StartCoroutine(Waitmove());
     }
 
     void CatMoveCount(int c) {
