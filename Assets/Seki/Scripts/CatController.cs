@@ -40,7 +40,8 @@ public class CatController : MonoBehaviour
     bool syukai = false;
     bool bareta = false;
 
-    [SerializeField] Transform enPos;
+    Vector3 pos;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -48,25 +49,26 @@ public class CatController : MonoBehaviour
         player = playerObj.GetComponent<PlayerInput>();
         playerC = playerObj.GetComponent<PlayerC>();
         agent = GetComponent<NavMeshAgent>();
-
+        pos = this.transform.position ;
     }
 
-  
-    
+
+    float step;
+    bool rote = false;
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(bareta);
         /*
-        if(!bareta) {
+        if(!bareta&& !syukai) {
             if(!agent.pathPending && agent.remainingDistance < 0.3f) {
 
                 GotoNextPoint();
            }
        }
         */
-        
-        if(bareta && !syukai) {
-
+        /*
+        if(bareta && !rote) {
             // 移動量を計算
             var delta = this.transform.position - m_gameObject[0].transform.position;
 
@@ -79,20 +81,32 @@ public class CatController : MonoBehaviour
 
             // オブジェクトの回転に反映
             this.transform.rotation = rotation;
+            rote = true;
+        }
+        */
+        if(bareta && !syukai) {
 
+            agent.destination = m_gameObject[0].transform.position;
 
-            float step = speed * Time.deltaTime;
-            this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[0].transform.position, step);
-            syukai = true;
+            //pos.x = speed * Time.deltaTime;
+            //this.transform.position = pos;
+            //step = speed*Time.deltaTime;
+            //transform.position = Vector3.Lerp(this.transform.position, m_gameObject[0].transform.position, step);
+            //this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[0].transform.position, step);
+            //syukai = true;
         }
 
+        
         if(bareta && this.transform.position == m_gameObject[0].transform.position) {
             Debug.Log("ついた");
             //syukai = true;
+            agent.enabled = false;
+            StartCoroutine(NotSyukai());
         }
+        
         /*
         if(syukai) {
-           
+            
             if(dirastionCount != -1 && !stop) {
                 CatMoveCount(CatPos());
             }
@@ -107,6 +121,10 @@ public class CatController : MonoBehaviour
             CatStop();
         } 
         */
+    }
+    IEnumerator NotSyukai() {
+        yield return new WaitForSeconds(0.1f);
+        syukai = true;
     }
 
     void CatStop() {
