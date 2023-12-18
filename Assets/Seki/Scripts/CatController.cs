@@ -50,7 +50,8 @@ public class CatController : MonoBehaviour
         playerC = playerObj.GetComponent<PlayerC>();
         agent = this.GetComponent<NavMeshAgent>();
         pos = this.transform.position ;
-      
+        agent.autoBraking = false;
+        GotoNextPoint();
     }
 
 
@@ -58,15 +59,15 @@ public class CatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(destPoint);
+        Debug.Log(agent.pathPending);
         
-        if((!bareta&& !syukai)) {
-            if(!agent.pathPending && agent.remainingDistance < 0.5f ) {
+        //if((!bareta&& !syukai)) {
+            if(!agent.pathPending && agent.remainingDistance < 0.5f && !move) {
                 
                 GotoNextPoint();
-                
+                move = true;
             } 
-        }
+        //}
         
 
         if(bareta && !syukai) {
@@ -112,7 +113,7 @@ public class CatController : MonoBehaviour
     }
 
     IEnumerator Waitmove() {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(5.0f);
         move = false;
     }
 
@@ -159,7 +160,8 @@ public class CatController : MonoBehaviour
         }
         agent.destination = points[destPoint].position;
         destPoint = (destPoint + 1) % points.Length;
-        move = true;
+        
+        StartCoroutine(Waitmove());
     }
 
     void CatMoveCount(int c) {
