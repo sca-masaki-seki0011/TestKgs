@@ -17,6 +17,7 @@ TagManager:
   - bokin
   - Ice
   - cat
+  - cateye
   layers:
   - Default
   - TransparentFX
