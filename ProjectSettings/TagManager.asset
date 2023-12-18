@@ -16,6 +16,7 @@ TagManager:
   - CheckPoint
   - bokin
   - Ice
+  - cat
   layers:
   - Default
   - TransparentFX

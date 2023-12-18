@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class CatController : MonoBehaviour
 {
     [SerializeField] private GameObject[] m_gameObject;
-    float speed = 5.0f;
+    float speed = 1.0f;
     int dirastionCount = -1;
     public int DIRATIONCOUNT
     {
@@ -28,19 +28,51 @@ public class CatController : MonoBehaviour
 
     int dire = 0;
     bool stop = false;
+    public bool STOPCAT {
+        set {
+            this.stop = value;
+        }
+        get {
+            return this.stop;
+        }
+    }
+    
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("カウント"+ dirastionCount+ "方向"+dire);
+        Debug.Log(stop);
         if(dirastionCount != -1 && !stop) {
             CatMoveCount(CatPos());
         }
 
 
-        if(this.transform.position == m_gameObject[3].transform.position) {
+        if(dirastionCount != -1&&this.transform.position == m_gameObject[3].transform.position) {
             Debug.Log("拠点1");
-            
+            stop= true;
+            StartCoroutine(WaitStop());
         }
+        if(dirastionCount != -1 && this.transform.position == m_gameObject[0].transform.position) {
+            Debug.Log("拠点1");
+            stop = true;
+            StartCoroutine(WaitStop());
+        }
+        if(dirastionCount != -1 && this.transform.position == m_gameObject[1].transform.position) {
+            Debug.Log("拠点1");
+            stop = true;
+            StartCoroutine(WaitStop());
+        }
+        if(dirastionCount != -1 && this.transform.position == m_gameObject[2].transform.position) {
+            Debug.Log("拠点1");
+            stop = true;
+            StartCoroutine(WaitStop());
+        }
+    }
+
+    IEnumerator WaitStop() {
+        yield return new WaitForSeconds(1.0f);
+        dire = 0;
+        dirastionCount = -1;
+        player.enabled = true;
     }
 
     void CatMoveCount(int c) {
@@ -107,20 +139,13 @@ public class CatController : MonoBehaviour
 
         // オブジェクトの回転に反映
         this.transform.rotation = rotation;
-        /*ここの動作を後でらーぷでやってみる
+        
+       
         float step = speed * Time.deltaTime;
         this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[c].transform.position, step);
-        */
-        StartCoroutine(WaitFlag());
+        
     
     }
 
-    IEnumerator WaitFlag() {
-        
-        yield return new WaitForSeconds(1.01f);
-        stop = true;
-        dire = 0;
-        dirastionCount = -1;
-        player.enabled = true;
-    }
+   
 }

@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 116396593}
   m_Layer: 0
   m_Name: catPos (1)
-  m_TagString: Untagged
+  m_TagString: cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6139,7 +6139,7 @@ GameObject:
   - component: {fileID: 513006371}
   m_Layer: 0
   m_Name: catPos
-  m_TagString: Untagged
+  m_TagString: cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17447,7 +17447,7 @@ GameObject:
   - component: {fileID: 1594021908}
   m_Layer: 0
   m_Name: catPos (3)
-  m_TagString: Untagged
+  m_TagString: cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17956,7 +17956,7 @@ GameObject:
   - component: {fileID: 1645157103}
   m_Layer: 0
   m_Name: catPos (2)
-  m_TagString: Untagged
+  m_TagString: cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28427,6 +28427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 958980796039364595}
   - component: {fileID: 433800627825976650}
+  - component: {fileID: 433800627825976651}
   m_Layer: 0
   m_Name: kitty
   m_TagString: Untagged
@@ -28452,6 +28453,19 @@ MonoBehaviour:
   - {fileID: 1645157102}
   - {fileID: 1594021907}
   player: {fileID: 392629484}
+--- !u!65 &433800627825976651
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433800627825976649}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.73, y: 1, z: 0.36}
+  m_Center: {x: 0, y: -1.18, z: 0}
 --- !u!4 &493698198033772370
 Transform:
   m_ObjectHideFlags: 0
