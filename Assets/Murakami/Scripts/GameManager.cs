@@ -170,7 +170,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GameOver);
         if(GameOver) {
             //GameOver = true;
             GameOverActive();

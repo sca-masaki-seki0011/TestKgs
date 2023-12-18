@@ -31,7 +31,6 @@ public class CatCol : MonoBehaviour
                 cat.STOPCAT = false;
                 playerInput.enabled = false;
            } 
-
         }
         
     }

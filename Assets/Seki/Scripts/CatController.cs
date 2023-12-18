@@ -18,14 +18,10 @@ public class CatController : MonoBehaviour
             return this.dirastionCount;
         }
     }
-    [SerializeField] PlayerInput player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.transform.position = m_gameObject[0].transform.position;
-    }
-
+    [SerializeField] GameObject playerObj;
+    PlayerC playerC;
+    PlayerInput player;
+    [SerializeField] MissionManager missionManager;
     int dire = 0;
     bool stop = false;
     public bool STOPCAT {
@@ -36,23 +32,41 @@ public class CatController : MonoBehaviour
             return this.stop;
         }
     }
+    // Start is called before the first frame update
+    void Start()
+    {
+        player = playerObj.GetComponent<PlayerInput>();
+        playerC = playerObj.GetComponent<PlayerC>();
+        this.transform.position = m_gameObject[0].transform.position;
+    }
+
+  
     
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(stop);
         if(dirastionCount != -1 && !stop) {
             CatMoveCount(CatPos());
         }
 
+        if(dirastionCount == 4) {
+            player.enabled = true;
+            playerC.MISSIO = true;
+            missionManager.MISSIONVALUE[missionManager.RADOMMISSIONCOUNT]++;
+            missionManager.KeyActive(missionManager.RADOMMISSIONCOUNT);
+            StartCoroutine(WaitNotActive());
+        }
+        CatStop();
+    }
 
-        if(dirastionCount != -1&&this.transform.position == m_gameObject[3].transform.position) {
-            Debug.Log("拠点1");
-            stop= true;
+    void CatStop() {
+        if(dirastionCount != -1 && this.transform.position == m_gameObject[3].transform.position) {
+            Debug.Log("拠点3");
+            stop = true;
             StartCoroutine(WaitStop());
         }
         if(dirastionCount != -1 && this.transform.position == m_gameObject[0].transform.position) {
-            Debug.Log("拠点1");
+            Debug.Log("拠点0");
             stop = true;
             StartCoroutine(WaitStop());
         }
@@ -62,10 +76,15 @@ public class CatController : MonoBehaviour
             StartCoroutine(WaitStop());
         }
         if(dirastionCount != -1 && this.transform.position == m_gameObject[2].transform.position) {
-            Debug.Log("拠点1");
+            Debug.Log("拠点2");
             stop = true;
             StartCoroutine(WaitStop());
         }
+    }
+    
+    IEnumerator WaitNotActive() {
+        yield return new WaitForSeconds(2.0f);
+        this.gameObject.SetActive(false);
     }
 
     IEnumerator WaitStop() {

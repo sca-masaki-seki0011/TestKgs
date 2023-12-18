@@ -22,7 +22,7 @@ public class MissionManager : MonoBehaviour
     //ミッション内容表示テキストUIとAnimation
    [SerializeField] Animator[] missionAnim;
     [SerializeField] Text[] misionValueText;
-    int[] missionValue = new int[4];
+    int[] missionValue = new int[5];
     public int[] MISSIONVALUE {
         set {
             this.missionValue = value;
@@ -33,7 +33,7 @@ public class MissionManager : MonoBehaviour
     }
     int sousaCount = 0;
     [SerializeField]
-    int[] missionMaxValue = new int[4];
+    int[] missionMaxValue;// = new int[5]
     //[SerializeField] Transform[] missionObjPos;//ミッションのオブジェクトの座標
 
     //ミッションの進捗変数
@@ -93,7 +93,7 @@ public class MissionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i <= 3; i++) {
+        for(int i = 0; i <= 4; i++) {
             numbers.Add(i);
         }
         for(int i = 0; i < missionAnim.Length; i++) {

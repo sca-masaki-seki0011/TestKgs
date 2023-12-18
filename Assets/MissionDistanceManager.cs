@@ -28,11 +28,17 @@ public class MissionDistanceManager : MonoBehaviour
     void Update()
     {
         if(mission.RADOMMISSIONCOUNT != -1 && mission.RADOMMISSIONCOUNT != 3) {
-            distance = Vector3.Distance(player.transform.position,MissionObject[mission.RADOMMISSIONCOUNT].transform.position);
-            intDistance = (int)distance;
-        
-            DistanceText[mission.RADOMMISSIONCOUNT].text = intDistance.ToString() + "m";
-            
+            if(mission.RADOMMISSIONCOUNT == 4) {
+                distance = Vector3.Distance(player.transform.position, MissionObject[mission.RADOMMISSIONCOUNT-1].transform.position);
+                intDistance = (int)distance;
+
+                DistanceText[mission.RADOMMISSIONCOUNT-1].text = intDistance.ToString() + "m";
+            } else {
+                distance = Vector3.Distance(player.transform.position, MissionObject[mission.RADOMMISSIONCOUNT].transform.position);
+                intDistance = (int)distance;
+
+                DistanceText[mission.RADOMMISSIONCOUNT].text = intDistance.ToString() + "m";
+            }  
         }
     }
 }
