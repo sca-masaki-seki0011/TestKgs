@@ -10,6 +10,7 @@ public class ItemC : MonoBehaviour
     [SerializeField] PlayerC pc;
     
     CapsuleCollider ca;
+    [SerializeField] GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,7 @@ public class ItemC : MonoBehaviour
     {
         if(col.tag == "Player")
         {
-           
+            gameManager.DESSPOS = col.transform.position;
             pc.GetItem(itemScore,itemName);
             ca.enabled = false;
             this.gameObject.SetActive(false);

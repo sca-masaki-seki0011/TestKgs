@@ -7,9 +7,6 @@ using UnityEngine.AI;
 
 public class CatController : MonoBehaviour
 {
-    [SerializeField] private Transform[] points;
-    private NavMeshAgent agent;
-    private int destPoint = 0;
     [SerializeField] private GameObject[] m_gameObject;
     float speed = 1.0f;
     int dirastionCount = -1;
@@ -37,24 +34,19 @@ public class CatController : MonoBehaviour
         }
     }
 
-    bool syukai = false;
-    bool bareta = false;
+  
 
-    Vector3 pos;
-    [SerializeField] GameObject[] boxObj;
+    
+    
 
     // Start is called before the first frame update
     void Start()
     {
         player = playerObj.GetComponent<PlayerInput>();
         playerC = playerObj.GetComponent<PlayerC>();
-        agent = this.GetComponent<NavMeshAgent>();
-        pos = this.transform.position ;
-        agent.autoBraking = false;
-        destPoint = Random.Range(0, points.Length);
-        for(int u = 0; u < boxObj.Length; u++) {
-            boxObj[u].SetActive(false);
-        }
+       
+        this.transform.position = m_gameObject[0].transform.position;
+    
     }
 
 
@@ -62,49 +54,10 @@ public class CatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(agent.pathPending);
+       
         
-        if((!bareta&& !syukai)) {
-            if(!agent.pathPending && agent.remainingDistance < 0.5f ) {//&& !move
-
-            GotoNextPoint();
-                //move = true;
-            } 
-        }
-        
-            
-        if(bareta && !syukai) {
-            //agent.enabled = false;
-            agent.destination = m_gameObject[0].transform.position;
-            // 移動量を計算
-            //var delta = this.transform.position - m_gameObject[0].transform.position;
-
-            // 静止している状態だと、進行方向を特定できないため回転しない
-            //if(delta == Vector3.zero)
-              //  return;
-
-            // 進行方向（移動量ベクトル）に向くようなクォータニオンを取得
-            //var rotation = Quaternion.LookRotation(delta, Vector3.up);
-
-            // オブジェクトの回転に反映
-            //this.transform.rotation = rotation;
-            //this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[0].transform.position, speed*Time.deltaTime);
-        }
-
-        
-        if(bareta && (this.transform.position.x == m_gameObject[0].transform.position.x)) {
-            Debug.Log("ついた");
-            for(int u = 0; u < boxObj.Length; u++) {
-                boxObj[u].SetActive(true);
-            }
-            agent.enabled = false;
-            syukai = true;
-        }
-        
-        
-        if(syukai) {
-            
             if(dirastionCount != -1 && !stop) {
+            Debug.Log("実行");
                 CatMoveCount(CatPos());
             }
 
@@ -116,8 +69,6 @@ public class CatController : MonoBehaviour
                 StartCoroutine(WaitNotActive());
             }
             CatStop();
-        } 
-        
     }
 
     IEnumerator Waitmove() {
@@ -160,17 +111,6 @@ public class CatController : MonoBehaviour
         player.enabled = true;
     }
 
-    void GotoNextPoint() {
-
-        if(points.Length == 0) {
-            
-            return;
-        }
-        agent.destination = points[destPoint].position;
-        destPoint = (destPoint + 1) % points.Length;
-        
-        //StartCoroutine(Waitmove());
-    }
 
     void CatMoveCount(int c) {
         
@@ -242,12 +182,5 @@ public class CatController : MonoBehaviour
         this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[c].transform.position, step);
         
     
-    }
-
-    private void OnTriggerEnter(Collider col) {
-        if(col.tag == "cateye") {
-            Debug.Log("見つかった");
-            bareta = true;
-        }
     }
 }

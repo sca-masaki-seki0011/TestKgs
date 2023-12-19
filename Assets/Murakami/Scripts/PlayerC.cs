@@ -256,9 +256,41 @@ public class PlayerC : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(onTramporin + "ビックジャンプ"+bigJump);
        
-      
+       if(onTramporin) {
+            bigJump = true;
+       
         
+       if(bigJump) {
+            _jumpSpeed = 20f;
+            _fallSpeed = 50f;
+            isGrounded = false;
+            _verticalVelocity = _jumpSpeed;
+            _verticalVelocity -= _gravity * Time.deltaTime;
+
+            // 落下する速さ以上にならないように補正
+            if(_verticalVelocity < -_fallSpeed)
+                _verticalVelocity = -_fallSpeed;
+            bigJump = false;
+        }
+
+        isGrounded = _characterController.isGrounded;
+        
+        if(isGrounded && !_isGroundedPrev) {
+            // 着地する瞬間に落下の初速を指定しておく
+            _verticalVelocity = -_initFallSpeed;
+        } else if(!isGrounded) {
+            // 空中にいるときは、下向きに重力加速度を与えて落下させる
+            _verticalVelocity -= _gravity * Time.deltaTime;
+
+            // 落下する速さ以上にならないように補正
+            if(_verticalVelocity < -_fallSpeed)
+                _verticalVelocity = -_fallSpeed;
+        }
+
+        _isGroundedPrev = isGrounded;
+    }
         
         if(_characterController.isGrounded && silde) {
             playerSpeed = 6f;
@@ -425,12 +457,13 @@ return _playerInput.currentControlScheme == "Gamepad";
     #endregion
 
     #region//行動処理
-
+    bool isGrounded;
+    bool bigJump = false;
     //行動処理
     private void MovePlayer()
     {
         _buttonAction = _playerInput.actions.FindAction("Dash");
-        var isGrounded = _characterController.isGrounded;
+        isGrounded = _characterController.isGrounded;
         //Vector3 cameraFor = cameraC.transform.position;
 
         if (isGrounded && !_isGroundedPrev)
@@ -653,9 +686,11 @@ return _playerInput.currentControlScheme == "Gamepad";
                 kaidan[u].enabled = false;
             }
         }
-        if(col.tag == "Tramporin")
+        if(col.tag == "Tramprin")
         {
-            _verticalVelocity = _jumpSpeed / 2;
+            Debug.Log("大ジャンプ");
+            //_verticalVelocity = _jumpSpeed / 2;
+            isGrounded = false;
             onTramporin = true;
         }
         if(col.tag == "hunn") {
@@ -708,12 +743,6 @@ return _playerInput.currentControlScheme == "Gamepad";
                 _playerInput.enabled = false;
             }
         }
-
-        
-
-        if(col.tag == "CheckPoint") {
-            gameManager.DESSPOS =  col.transform.position;
-        }
     }
 
     IEnumerator WaitChara() {
@@ -727,7 +756,7 @@ return _playerInput.currentControlScheme == "Gamepad";
 
     private void OnTriggerExit(Collider col)
     {
-        if(col.tag == "Tramporin")
+        if(col.tag == "Tramprin")
         {
             onTramporin = false;
         }
