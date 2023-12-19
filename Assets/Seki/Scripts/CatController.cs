@@ -41,7 +41,7 @@ public class CatController : MonoBehaviour
     bool bareta = false;
 
     Vector3 pos;
-   
+    [SerializeField] GameObject[] boxObj;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +52,9 @@ public class CatController : MonoBehaviour
         pos = this.transform.position ;
         agent.autoBraking = false;
         destPoint = Random.Range(0, points.Length);
+        for(int u = 0; u < boxObj.Length; u++) {
+            boxObj[u].SetActive(false);
+        }
     }
 
 
@@ -61,35 +64,40 @@ public class CatController : MonoBehaviour
     {
         Debug.Log(agent.pathPending);
         
-        //if((!bareta&& !syukai)) {
+        if((!bareta&& !syukai)) {
             if(!agent.pathPending && agent.remainingDistance < 0.5f ) {//&& !move
 
             GotoNextPoint();
                 //move = true;
             } 
-        //}
+        }
         
-            /*
+            
         if(bareta && !syukai) {
-            agent.enabled = false;
+            //agent.enabled = false;
+            agent.destination = m_gameObject[0].transform.position;
             // 移動量を計算
-            var delta = this.transform.position - m_gameObject[0].transform.position;
+            //var delta = this.transform.position - m_gameObject[0].transform.position;
 
             // 静止している状態だと、進行方向を特定できないため回転しない
-            if(delta == Vector3.zero)
-                return;
+            //if(delta == Vector3.zero)
+              //  return;
 
             // 進行方向（移動量ベクトル）に向くようなクォータニオンを取得
-            var rotation = Quaternion.LookRotation(delta, Vector3.up);
+            //var rotation = Quaternion.LookRotation(delta, Vector3.up);
 
             // オブジェクトの回転に反映
-            this.transform.rotation = rotation;
-            this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[0].transform.position, speed*Time.deltaTime);
+            //this.transform.rotation = rotation;
+            //this.transform.position = Vector3.MoveTowards(this.transform.position, m_gameObject[0].transform.position, speed*Time.deltaTime);
         }
 
         
         if(bareta && (this.transform.position.x == m_gameObject[0].transform.position.x)) {
             Debug.Log("ついた");
+            for(int u = 0; u < boxObj.Length; u++) {
+                boxObj[u].SetActive(true);
+            }
+            agent.enabled = false;
             syukai = true;
         }
         
@@ -109,7 +117,7 @@ public class CatController : MonoBehaviour
             }
             CatStop();
         } 
-        */
+        
     }
 
     IEnumerator Waitmove() {
