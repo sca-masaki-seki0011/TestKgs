@@ -31,7 +31,7 @@ public class ItemC : MonoBehaviour
     {
         if(col.tag == "Player")
         {
-            //gameManager.DESSPOS = col.transform.position;
+            gameManager.DESSPOS = col.transform.position;
             pc.GetItem(itemScore,itemName);
             ca.enabled = false;
             this.gameObject.SetActive(false);

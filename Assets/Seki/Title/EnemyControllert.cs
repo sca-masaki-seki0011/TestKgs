@@ -19,6 +19,11 @@ public class EnemyControllert : MonoBehaviour
     Animator anim;
     bool playerHit = false;
     [SerializeField] GameObject playerObj;
+    bool enemyMove = false;
+    PlayerC playerC;
+    [SerializeField] PauseManager pause;
+    [SerializeField] MissionManager mission;
+    [SerializeField] BoxCollider hand;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,24 +31,39 @@ public class EnemyControllert : MonoBehaviour
         //bo = bo.GetComponent<AreaController>();
         destPoint = Random.Range(0, points.Length);
         anim = this.GetComponent<Animator>();
+        playerC = playerObj.GetComponent<PlayerC>();
+        hand.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!playerHit) {
-            if(!agent.pathPending && agent.remainingDistance < 0.5f) {
+        Debug.Log(playerHit + "敵動いて良いよー"+enemyMove);
             
-                //GotoNextPoint();
-            }
-      
-        }
-        if(playerHit) {
+        if(playerHit && enemyMove) {
+            
             transform.DOLookAt(playerObj.transform.position,1.0f);
-            anim.SetTrigger("attack");
             playerHit = false;
         }
-       
+        if(mission.MISSIONFLAG || pause.PAUSE || enemyMove) { //
+            agent.speed = 0f;
+        } else {
+            agent.speed = 3.5f;
+            if(!playerHit && !enemyMove) {
+                if(!agent.pathPending && agent.remainingDistance < 0.5f) {
+                    GotoNextPoint();
+                }
+            }
+        }
+        if(playerC.FALLING) {
+            enemyMove = false;
+        }
+        
+    }
+
+    IEnumerator WaitAttack() {
+        yield return new WaitForSeconds(1.0f);
+        playerHit = false;
     }
 
     //�p�j����֐�
@@ -66,12 +86,19 @@ public class EnemyControllert : MonoBehaviour
             //回避モーション中だったら自分を消す
             //else
             playerHit = true;
+            if(!pause.PAUSE  || !mission.MISSIONFLAG) {
+                hand.enabled = true;
+                anim.SetTrigger("attack");
+            }
+            
+            enemyMove = true;
         }
     }
 
     private void OnTriggerExit(Collider col) {
         if(col.tag == "Player") {
-            playerHit = false;
+            enemyMove = false;
+            hand.enabled = false;
         }
     }
 }

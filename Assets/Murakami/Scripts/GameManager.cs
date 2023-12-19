@@ -170,7 +170,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(dessPosition);
         if(GameOver) {
             //GameOver = true;
             GameOverActive();
@@ -237,10 +236,6 @@ public class GameManager : MonoBehaviour
         if(!fadeIn && (player.FALLING || player.ALLGOAL)) {
             FadeOut();
         }
-        //if(fadeIn && managerRemain != 0 && ) {
-            //FadeIn();
-        //}
-
     }
 
   

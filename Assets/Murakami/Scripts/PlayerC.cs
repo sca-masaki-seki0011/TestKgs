@@ -677,10 +677,6 @@ return _playerInput.currentControlScheme == "Gamepad";
             Debug.Log(col.gameObject);
         }
         if(col.tag == "holl") {
-            if(gameManager.ManagerRemain != 0) {
-                //gameManager.ManagerRemain--;
-                
-            }
             falling = true;
             for(int u = 0; u < planeCol.Length; u++) {
                 planeCol[u].enabled = false;
@@ -709,7 +705,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         if(col.tag == "Enemy") {
             falling = true;
             _playerInput.enabled = false;
-           
+            StartCoroutine(WaitChara());
         }
 
         if(col.tag == "Car") {

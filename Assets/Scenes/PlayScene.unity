@@ -15640,6 +15640,9 @@ MonoBehaviour:
   - {fileID: 846420286}
   - {fileID: 1974797601}
   playerObj: {fileID: 0}
+  pause: {fileID: 0}
+  mission: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!1 &1317694063
 GameObject:
   m_ObjectHideFlags: 0
@@ -16397,6 +16400,9 @@ MonoBehaviour:
   - {fileID: 846420286}
   - {fileID: 1974797601}
   playerObj: {fileID: 392629482}
+  pause: {fileID: 1263442065}
+  mission: {fileID: 1653511853}
+  hand: {fileID: 143742049}
 --- !u!195 &1418567691
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -16407,7 +16413,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
