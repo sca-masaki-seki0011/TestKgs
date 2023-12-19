@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyControllert : MonoBehaviour
 {
-    [SerializeField] AreaController bo;
+    //[SerializeField] AreaController bo;
 
     //�g�����v�������񂷂�|�C���g
     [SerializeField] private Transform[] points;
@@ -15,25 +15,29 @@ public class EnemyControllert : MonoBehaviour
     private NavMeshAgent agent;
 
     bool r = false;
-
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        bo = bo.GetComponent<AreaController>();
+       // bo = bo.GetComponent<AreaController>();
         destPoint = Random.Range(0, points.Length);
-
+        anim = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!bo.HIT) {
+        //if(!bo.HIT) {
+        Debug.Log(agent.pathPending);
             if(!agent.pathPending && agent.remainingDistance < 0.5f) {
             
                 GotoNextPoint();
             }
       
+        //}
+        if(Input.GetKeyDown(KeyCode.P)) {
+            anim.SetTrigger("attack");
         }
        
     }

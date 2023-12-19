@@ -51,7 +51,7 @@ public class CatController : MonoBehaviour
         agent = this.GetComponent<NavMeshAgent>();
         pos = this.transform.position ;
         agent.autoBraking = false;
-        GotoNextPoint();
+        destPoint = Random.Range(0, points.Length);
     }
 
 
@@ -69,7 +69,7 @@ public class CatController : MonoBehaviour
             } 
         //}
         
-
+            /*
         if(bareta && !syukai) {
             agent.enabled = false;
             // ˆÚ“®—Ê‚ðŒvŽZ
@@ -109,7 +109,7 @@ public class CatController : MonoBehaviour
             }
             CatStop();
         } 
-        
+        */
     }
 
     IEnumerator Waitmove() {
