@@ -214,6 +214,19 @@ public class PlayerC : MonoBehaviour
 
     protected float groundAngle = 0;
 
+    bool missio = false;
+    public bool MISSIO {
+        set {
+            missio = value;
+        }
+        get {
+            return missio;
+        }
+    }
+    float missioTime;
+
+    [SerializeField] Animator tranporin;
+
     private void Awake()
     {
         mission = mission.GetComponent<MissionManager>();
@@ -232,6 +245,7 @@ public class PlayerC : MonoBehaviour
 
     void Start()
     {
+        
         for(int u = 0; u < planeCol.Length; u++) {
             planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
             planeCol[u].enabled = true;
@@ -243,21 +257,10 @@ public class PlayerC : MonoBehaviour
         }
     }
 
-    bool missio = false;
-    public bool MISSIO {
-        set {
-            missio = value;
-        }
-        get {
-            return missio;
-        }
-    }
-    float missioTime;
+    
 
     void Update()
     {
-        Debug.Log(onTramporin + "ビックジャンプ"+bigJump);
-       
        if(onTramporin) {
             bigJump = true;
        
@@ -296,13 +299,7 @@ public class PlayerC : MonoBehaviour
             playerSpeed = 6f;
             StartCoroutine(WaitSpeed());
         } 
-        /*
-        if(Gamepad.current.leftShoulder.wasPressedThisFrame) {
-            for(int u = 0; u < kaidan.Length; u++) {
-            kaidan[u].enabled = true;
-            }
-        }
-        */
+     
         if(missio) {
             missioTime += Time.deltaTime;
         }
@@ -554,19 +551,9 @@ return _playerInput.currentControlScheme == "Gamepad";
          );
           var moveDelta = moveVelocity * Time.deltaTime;
         
-        //カメラの角度を取得する
-        // float cameraVecF = cameraVec.z;
-      
-        // 現在フレームの移動量を移動速度から計算
-        //* cameraVecF 
-        //雨が降っていたら
-        //if (isRain)
-        //{
-           // moveDelta = Vector3.Lerp(moveDelta, groundHit.normal * playerSpeed / 5.0f, Time.deltaTime);
-        //}
-        // CharacterControllerに移動量を指定し、オブジェクトを動かす
+       
         _characterController.Move(moveDelta);
-        //transform.position = new Vector3(moveDelta.x, moveDelta.y, moveDelta.z);
+        
     }
 
     //無敵判定をつける
@@ -638,14 +625,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         
         
     }
-    /*
-    Vector3[] path = {
-    new Vector3(56.13f,13.79f,-2.32f),
-    new Vector3(63.57f,8.46f,-2.16f),
-    new Vector3(68.59f,8.33f,-2.16f),
-    new Vector3(80.48f,-1.03f,-2.16f)
-        };
-    */
+ 
     public void SwitchPath(int count) {
         switch(count) {
             case 1:
@@ -688,7 +668,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         }
         if(col.tag == "Tramprin")
         {
-            Debug.Log("大ジャンプ");
+            tranporin.SetBool("Tranporin",true);
             //_verticalVelocity = _jumpSpeed / 2;
             isGrounded = false;
             onTramporin = true;
@@ -729,10 +709,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         if(col.tag == "Enemy") {
             falling = true;
             _playerInput.enabled = false;
-            if(gameManager.ManagerRemain != 0) {
-                //gameManager.ManagerRemain--;
-                
-            }
+           
         }
 
         if(col.tag == "Car") {
@@ -758,12 +735,15 @@ return _playerInput.currentControlScheme == "Gamepad";
     {
         if(col.tag == "Tramprin")
         {
+            StartCoroutine(WaitJump());
             onTramporin = false;
         }
-
-       
     }
 
+    IEnumerator WaitJump() {
+        yield return new WaitForSeconds(1f);
+        tranporin.SetBool("Tranporin", false);
+    }
    
     #endregion
 

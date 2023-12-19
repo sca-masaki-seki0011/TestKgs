@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class EnemyControllert : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class EnemyControllert : MonoBehaviour
 
     bool r = false;
     Animator anim;
+    bool playerHit = false;
+    [SerializeField] GameObject playerObj;
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-       // bo = bo.GetComponent<AreaController>();
+        //bo = bo.GetComponent<AreaController>();
         destPoint = Random.Range(0, points.Length);
         anim = this.GetComponent<Animator>();
     }
@@ -28,16 +31,17 @@ public class EnemyControllert : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(!bo.HIT) {
-        Debug.Log(agent.pathPending);
+        if(!playerHit) {
             if(!agent.pathPending && agent.remainingDistance < 0.5f) {
             
                 //GotoNextPoint();
             }
       
-        //}
-        if(Input.GetKeyDown(KeyCode.P)) {
+        }
+        if(playerHit) {
+            transform.DOLookAt(playerObj.transform.position,1.0f);
             anim.SetTrigger("attack");
+            playerHit = false;
         }
        
     }
@@ -54,5 +58,20 @@ public class EnemyControllert : MonoBehaviour
         destPoint = (destPoint + 1) % points.Length;
 
         
+    }
+
+    private void OnTriggerEnter(Collider col) {
+        if(col.tag == "Player") {
+            //if(//ここにプレイヤーの回避モーション中だったらの条件が入る)
+            //回避モーション中だったら自分を消す
+            //else
+            playerHit = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col) {
+        if(col.tag == "Player") {
+            playerHit = false;
+        }
     }
 }

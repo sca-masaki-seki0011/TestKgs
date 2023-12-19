@@ -170,6 +170,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(dessPosition);
         if(GameOver) {
             //GameOver = true;
             GameOverActive();
@@ -342,7 +343,6 @@ public class GameManager : MonoBehaviour
         }
         
         if(P_alfa <= 0.0f) { 
-            Debug.Log("フェイドイン終わったよ");
             fadeIn = false;
             remain = false;
         }
