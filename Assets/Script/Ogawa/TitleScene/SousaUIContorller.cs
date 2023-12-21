@@ -105,7 +105,7 @@ public class SousaUIContorller : MonoBehaviour
     void Update()
     {
         
-        Debug.Log(_slider.value);
+        Debug.Log(Pagecount);
     
         if(_slider.value != 0 && _slider.value % 10 == 0 && _slider.value < 100.0f) {
            move = true; 
@@ -117,7 +117,7 @@ public class SousaUIContorller : MonoBehaviour
             move = false;
         }
    
-        if(!tips && _slider.value < 100.0f) {
+        if(!tips) {
             tipsTime += Time.deltaTime;
             if((int)tipsTime != 0 && (int)tipsTime % 5 == 0) {
                 tips = true;
