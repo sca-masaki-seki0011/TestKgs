@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
     }
 
     bool remain = false;
-    bool g = false;
+   
     IEnumerator WaitU() {
         yield return new WaitForSeconds(1.0f);
         if(!remain) {
