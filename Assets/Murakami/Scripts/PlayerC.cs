@@ -457,6 +457,15 @@ return _playerInput.currentControlScheme == "Gamepad";
     #region//行動処理
     bool isGrounded;
     bool bigJump = false;
+    bool getKey = false;
+    public bool GETKEY {
+        set {
+            this.getKey = value;;
+        }
+        get {
+            return this.getKey;
+        }
+    }
     //行動処理
     private void MovePlayer()
     {
@@ -781,9 +790,9 @@ return _playerInput.currentControlScheme == "Gamepad";
         switch(itemName)
         {
             case "Key":
+                getKey = true;
                 if(mission.MiSSIONCOUNT < 2) {
-                    mission.STATMISSION = false;
-                    mission.YBUTTON = false;
+                    StartCoroutine(WaitKeyFlag());
                 }
                 if(KeyCount < 4) {
                     KeyCount++;
@@ -804,6 +813,12 @@ return _playerInput.currentControlScheme == "Gamepad";
                 getedGuardian = true;
                 break;
         }
+    }
+    
+    IEnumerator WaitKeyFlag() {
+        yield return new WaitForSeconds(3.0f);
+        mission.STATMISSION = false;
+        mission.YBUTTON = false;
     }
 
     //回避のクールタイム計算
