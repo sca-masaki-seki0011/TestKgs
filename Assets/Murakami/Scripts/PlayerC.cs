@@ -226,6 +226,7 @@ public class PlayerC : MonoBehaviour
     float missioTime;
 
     [SerializeField] Animator tranporin;
+    [SerializeField] GameObject DamagePanel;
 
     private void Awake()
     {
@@ -245,7 +246,7 @@ public class PlayerC : MonoBehaviour
 
     void Start()
     {
-        
+        DamagePanel.SetActive(false);
         for(int u = 0; u < planeCol.Length; u++) {
             planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
             planeCol[u].enabled = true;
@@ -657,6 +658,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         this.transform.DOPath(path, 3.5f);
     }
 
+    int co = 0;
     private void OnTriggerEnter(Collider col)
     {
         if(col.tag == "Ice") {
@@ -703,7 +705,9 @@ return _playerInput.currentControlScheme == "Gamepad";
         
 
         if(col.tag == "Enemy") {
-            falling = true;
+            //falling = true;
+            co = 1;
+            StartCoroutine(WaitFall());
             _playerInput.enabled = false;
             StartCoroutine(WaitChara());
         }
@@ -716,6 +720,29 @@ return _playerInput.currentControlScheme == "Gamepad";
                 _playerInput.enabled = false;
             }
         }
+    }
+    
+    IEnumerator WaitFall() {
+        yield return null;
+
+        while(co != 0) {
+
+            DamagePanel.SetActive(false);
+
+
+            yield return new WaitForSeconds(0.15f);
+
+
+            DamagePanel.SetActive(true);
+
+
+            yield return new WaitForSeconds(0.15f);
+            co--;
+
+        }
+        DamagePanel.SetActive(false);
+        falling = true;
+        yield break;
     }
 
     IEnumerator WaitChara() {

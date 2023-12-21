@@ -41,35 +41,43 @@ public class CarMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!pause.PAUSE && !mission.MISSIONFLAG) { //
-                            //Debug.Log("プレイヤーヒット!!"+ playersurch.HITPLAYER);
+        if(!pause.PAUSE && !mission.MISSIONFLAG) {
+            agent.speed = 3.5f;
             if(des.ARRIVE) {
-            co = 0;
-            this.transform.position = myPos;
-            StartCoroutine(WaitCol());
+                co = 0;
+                this.transform.position = myPos;
+                StartCoroutine(WaitCol());
+                myBox.isTrigger = false;
+                agent.enabled = false;
+                des.ARRIVE = false;
+            }
+
+            if(playersurch.HITPLAYER) {
+                co = 4;
+                //if(dis < 20.6f) {
+                myBox.isTrigger = true;
+                agent.enabled = true;
+                childBox.enabled = false;
+                StartCoroutine(ImageDangerTenmetu());
+                playersurch.HITPLAYER = false;
+            }
+
+            if(carMove) {
+                if(!agent.pathPending && agent.remainingDistance < 0.5f) {
+
+                    GotoNextPoint();
+                }
+                carMove = false;
+            }
+        } else {
+            agent.speed = 0f;
             myBox.isTrigger = false;
             agent.enabled = false;
             des.ARRIVE = false;
         }
+                            //Debug.Log("プレイヤーヒット!!"+ playersurch.HITPLAYER);
+        
        
-        if(playersurch.HITPLAYER) {
-            co = 4;
-            //if(dis < 20.6f) {
-            myBox.isTrigger = true;
-            agent.enabled = true;
-            childBox.enabled = false;
-            StartCoroutine(ImageDangerTenmetu());
-            playersurch.HITPLAYER = false;
-        }
-
-        if(carMove) {
-            if(!agent.pathPending && agent.remainingDistance < 0.5f) {
-
-                GotoNextPoint();
-            }
-            carMove = false;
-        }
-        }
     }
 
     IEnumerator WaitCol() {

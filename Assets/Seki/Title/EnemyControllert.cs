@@ -51,7 +51,7 @@ public class EnemyControllert : MonoBehaviour
             agent.speed = 3.5f;
             if(!playerHit && !enemyMove) {
                 if(!agent.pathPending && agent.remainingDistance < 0.5f) {
-                    GotoNextPoint();
+                    //GotoNextPoint();
                 }
             }
         }
