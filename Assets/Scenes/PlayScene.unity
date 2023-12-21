@@ -2489,6 +2489,8 @@ MonoBehaviour:
   - {fileID: 1513739591}
   - {fileID: 2033036782}
   target: {fileID: 392629482}
+  pause: {fileID: 1263442065}
+  mission: {fileID: 1653511853}
 --- !u!195 &255629177
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10407,6 +10409,8 @@ MonoBehaviour:
   childBox: {fileID: 163742691}
   points:
   - {fileID: 1001454854}
+  pause: {fileID: 0}
+  mission: {fileID: 0}
 --- !u!65 &879480666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22474,6 +22478,8 @@ MonoBehaviour:
   childBox: {fileID: 129637851}
   points:
   - {fileID: 1802122108}
+  pause: {fileID: 1263442065}
+  mission: {fileID: 1653511853}
 --- !u!195 &1905487911
 NavMeshAgent:
   m_ObjectHideFlags: 0

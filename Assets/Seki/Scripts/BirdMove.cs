@@ -11,6 +11,8 @@ public class BirdMove : MonoBehaviour
     [SerializeField] GameObject target;
     BulletInstance bullet;
     AudioSource music;
+    [SerializeField] PauseManager pause;
+    [SerializeField] MissionManager mission;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class BirdMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!pause.PAUSE && !mission.MISSIONFLAG) { 
         Vector3 cube = target.transform.position;
         float dis = Vector3.Distance(cube,this.transform.position);
         if(dis < 60f) {
@@ -37,6 +40,7 @@ public class BirdMove : MonoBehaviour
         if(!agent.pathPending && agent.remainingDistance < 0.3f) {
 
             GotoNextPoint();
+        }
         }
     }
 

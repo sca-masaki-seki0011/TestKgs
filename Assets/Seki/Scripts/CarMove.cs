@@ -20,6 +20,10 @@ public class CarMove : MonoBehaviour
     bool carMove = false;
     BoxCollider myBox;
     int co = 0;
+
+    [SerializeField] PauseManager pause;
+    [SerializeField] MissionManager mission;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,8 +41,9 @@ public class CarMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("プレイヤーヒット!!"+ playersurch.HITPLAYER);
-        if(des.ARRIVE) {
+        if(!pause.PAUSE && !mission.MISSIONFLAG) { //
+                            //Debug.Log("プレイヤーヒット!!"+ playersurch.HITPLAYER);
+            if(des.ARRIVE) {
             co = 0;
             this.transform.position = myPos;
             StartCoroutine(WaitCol());
@@ -58,11 +63,12 @@ public class CarMove : MonoBehaviour
         }
 
         if(carMove) {
-            if(!agent.pathPending && agent.remainingDistance <= 0.0f) {
+            if(!agent.pathPending && agent.remainingDistance < 0.5f) {
 
                 GotoNextPoint();
             }
             carMove = false;
+        }
         }
     }
 
