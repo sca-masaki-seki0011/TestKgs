@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class CatController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] m_gameObject;
+    [SerializeField] private Transform[] m_gameObject;
     float speed = 1.0f;
     int dirastionCount = -1;
     public int DIRATIONCOUNT
@@ -23,6 +23,7 @@ public class CatController : MonoBehaviour
     PlayerC playerC;
     PlayerInput player;
     [SerializeField] MissionManager missionManager;
+    NavMeshAgent agent;
     int dire = 0;
     bool stop = false;
     public bool STOPCAT {
@@ -34,17 +35,14 @@ public class CatController : MonoBehaviour
         }
     }
 
-  
-
-    
-    
-
+    private int destPoint = 0;
     // Start is called before the first frame update
     void Start()
     {
+      
         player = playerObj.GetComponent<PlayerInput>();
         playerC = playerObj.GetComponent<PlayerC>();
-       
+        destPoint = Random.Range(0, m_gameObject.Length);
         this.transform.position = m_gameObject[0].transform.position;
     
     }
@@ -54,12 +52,11 @@ public class CatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        
-            if(dirastionCount != -1 && !stop) {
-            Debug.Log("実行");
-                CatMoveCount(CatPos());
-            }
+        if(!agent.pathPending && agent.remainingDistance < 0.5f) {
+            GotoNextPoint();
+        }
+
+            
 
             if(dirastionCount == 4) {
                 player.enabled = true;
@@ -68,41 +65,62 @@ public class CatController : MonoBehaviour
                 missionManager.KeyActive(missionManager.RADOMMISSIONCOUNT);
                 StartCoroutine(WaitNotActive());
             }
-            CatStop();
+            //CatStop();
     }
 
-    IEnumerator Waitmove() {
-        yield return new WaitForSeconds(5.0f);
-        move = false;
+    void GotoNextPoint() {
+
+        if(m_gameObject.Length == 0) {
+            return;
+        }
+
+        //ene.SetBool("walk", false);
+        agent.destination = m_gameObject[destPoint].position;
+        destPoint = (destPoint + 1) % m_gameObject.Length;
+
+
     }
 
+    //IEnumerator Waitmove() {
+    //yield return new WaitForSeconds(5.0f);
+    //move = false;
+    //}
+
+    IEnumerator WaitNotActive() {
+        yield return new WaitForSeconds(2.0f);
+        this.gameObject.SetActive(false);
+    }
+
+    /*
     void CatStop() {
+      
         if(dirastionCount != -1 && this.transform.position == m_gameObject[3].transform.position) {
             Debug.Log("拠点3");
             stop = true;
+          
             StartCoroutine(WaitStop());
         }
         if(dirastionCount != -1 && this.transform.position == m_gameObject[0].transform.position) {
             Debug.Log("拠点0");
             stop = true;
+         
             StartCoroutine(WaitStop());
         }
         if(dirastionCount != -1 && this.transform.position == m_gameObject[1].transform.position) {
             Debug.Log("拠点1");
             stop = true;
+        
             StartCoroutine(WaitStop());
         }
         if(dirastionCount != -1 && this.transform.position == m_gameObject[2].transform.position) {
             Debug.Log("拠点2");
             stop = true;
+       
             StartCoroutine(WaitStop());
         }
     }
     
-    IEnumerator WaitNotActive() {
-        yield return new WaitForSeconds(2.0f);
-        this.gameObject.SetActive(false);
-    }
+    
 
     IEnumerator WaitStop() {
         yield return new WaitForSeconds(1.0f);
@@ -113,22 +131,23 @@ public class CatController : MonoBehaviour
 
 
     void CatMoveCount(int c) {
-        
+      
+     
         switch(c) {
             case 1:
-                if(dirastionCount == 0 || dirastionCount == 1) {
+                if(dirastionCount == 0) {
                     CatMovbe(3);
                 }
-                if(dirastionCount == 2) {
+                if(dirastionCount == 2 || dirastionCount == 1) {
                     CatMovbe(1);
                 }
                 break;
             case 2:
-                if(dirastionCount == 0 || dirastionCount == 1) {
-                    CatMovbe(0);
-                }
-                if(dirastionCount == 2) {
+                if(dirastionCount == 1) {
                     CatMovbe(2);
+                }
+                if(dirastionCount == 0 || dirastionCount == 2) {
+                    CatMovbe(0);
                 }
                 break;
             case 3:
@@ -183,4 +202,5 @@ public class CatController : MonoBehaviour
         
     
     }
+    */
 }

@@ -146,7 +146,6 @@ public class MissionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if(!missionFlag && !missionClear && !ybutton) {
             if(Gamepad.current.yButton.wasPressedThisFrame) {
                 sousaCount++;
@@ -174,7 +173,7 @@ public class MissionManager : MonoBehaviour
         if(missionFlag) { 
         if(Gamepad.current.bButton.wasPressedThisFrame) {
             player.enabled = true;
-            missionFlag = false;
+           
             mission.SetBool("Mission",true);
             StartCoroutine(NotUI());
         }
@@ -274,6 +273,7 @@ public class MissionManager : MonoBehaviour
         mission.SetBool("Mission", false);
         mission.enabled = false;
         missionUI.SetActive(false);
-      
+        missionFlag = false;
+        //yield break;
     }
 }

@@ -28,10 +28,21 @@ public class CatCol : MonoBehaviour
         if(col.tag == "Player") {
            if(colCount != 3) {
                 cat.DIRATIONCOUNT = colCount;
-                cat.STOPCAT = false;
-                playerInput.enabled = false;
+                //cat.STOPCAT = false;
+      
+                //playerInput.enabled = false;
            } 
         }
-        
+    }
+
+    private void OnTriggerStay(Collider col) {
+        if(col.tag == "Player") {
+            if(colCount != 3) {
+                cat.DIRATIONCOUNT = colCount;
+                //cat.STOPCAT = false;
+                
+                //playerInput.enabled = false;
+            }
+        }
     }
 }
