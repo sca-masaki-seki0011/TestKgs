@@ -151,14 +151,18 @@ public class MissionManager : MonoBehaviour
             if(Gamepad.current.yButton.wasPressedThisFrame) {
                 sousaCount++;
             }
-            if(sousaCount == 1) {
+            if(ransu != -1) {
+                if(sousaCount == 1) {
+                
                 missionAnim[ransu].enabled = true;
                 missionAnim[ransu].SetBool("mission", true);
+           
             }
             else if(sousaCount == 2) {
                 missionAnim[ransu].SetBool("mission", false);
                 
                 sousaCount = 0;
+            }
             }
         }
     
