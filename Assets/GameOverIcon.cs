@@ -9,29 +9,51 @@ public class GameOverIcon : MonoBehaviour
 {
     RectTransform my;
     [SerializeField] RectTransform[] gameOverPos;
+    [SerializeField] Animator gameOverAnim;
+    bool gameover = false;
+    bool nyuryoku = false;
     // Start is called before the first frame update
     void Start()
     {
         my = this.GetComponent<RectTransform>();
+        StartCoroutine(StartFlag());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!gameover) {
         IconMove();
         if(my.localPosition == gameOverPos[0].localPosition) {
-            if(Gamepad.current.bButton.wasPressedThisFrame) {
+            
+            if(nyuryoku && Gamepad.current.bButton.wasPressedThisFrame) {
+                gameOverAnim.SetBool("hukki",true);
                 TitleManager.sceneName = "PlayScene";
-                SceneManager.LoadScene("LoadScene");
+                gameover = true;
+                StartCoroutine(WaitScene());
             }
           
         }
         else if(my.localPosition == gameOverPos[1].localPosition) {
-            if(Gamepad.current.bButton.wasPressedThisFrame) {
+                new WaitForSeconds(2.0f);
+                if(nyuryoku && Gamepad.current.bButton.wasPressedThisFrame) {
+                gameOverAnim.SetBool("idou", true);
                 TitleManager.sceneName = "Masaki";
-                 SceneManager.LoadScene("LoadScene");
+                    gameover = true;
+                    StartCoroutine(WaitScene());
             }
         }
+        }
+    }
+
+    IEnumerator StartFlag() {
+        yield return null;
+        nyuryoku = true;
+    }
+
+    IEnumerator WaitScene() {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene("LoadScene");
     }
 
     void IconMove() {

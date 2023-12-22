@@ -7,6 +7,7 @@ public class Tyokin : MonoBehaviour
     [SerializeField] MissionManager mission;
     BoxCollider bo;
     [SerializeField] GameManager gameManager;
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,11 @@ public class Tyokin : MonoBehaviour
     {
         if(mission.RADOMMISSIONCOUNT == 2 && mission.MISSIONCLEAR) {
             bo.isTrigger = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider col) {
+        if(col.tag == "Player") {
             gameManager.ManagerRemain++;
         }
     }

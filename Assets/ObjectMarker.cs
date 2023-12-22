@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectMarker : MonoBehaviour
 {
@@ -10,13 +11,17 @@ public class ObjectMarker : MonoBehaviour
     // UIを表示させる対象オブジェクト
     [SerializeField] private Transform _target;
 
+    [SerializeField] Image targetObj;
     // 表示するUI
-    [SerializeField] private Transform _targetUI;
+    private Transform _targetUI;
 
     // オブジェクト位置のオフセット
     [SerializeField] private Vector3 _worldOffset;
 
     private RectTransform _parentUI;
+    [SerializeField] PlayerC playerC;
+    GameManager gameManager;
+    bool active = false;
 
     // 初期化メソッド（Prefabから生成する時などに使う）
     public void Initialize(Transform target, Camera targetCamera = null) {
@@ -27,6 +32,8 @@ public class ObjectMarker : MonoBehaviour
     }
 
     private void Awake() {
+        _targetUI = targetObj.GetComponent<Transform>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         // カメラが指定されていなければメインカメラにする
         if(_targetCamera == null)
             _targetCamera = Camera.main;
@@ -37,7 +44,27 @@ public class ObjectMarker : MonoBehaviour
 
     // UIの位置を毎フレーム更新
     private void Update() {
-        OnUpdatePosition();
+        Debug.Log("アクティブ"+active);
+        if(playerC.FALLING && !gameManager.GAMEOVER) {
+            active = true;
+            targetObj.enabled = false;
+        }
+        if(!gameManager.GAMEOVER && !active) {
+            OnUpdatePosition();
+        }
+        if(active) {
+            
+            StartCoroutine(WaitFlag());
+        }
+        if(gameManager.GAMEOVER) {
+            targetObj.enabled = false;
+        }
+    }
+
+    IEnumerator WaitFlag() {
+        yield return new WaitForSeconds(4.0f);
+        active = false;
+        targetObj.enabled = true;
     }
 
     // UIの位置を更新する

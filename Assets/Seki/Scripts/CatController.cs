@@ -52,7 +52,7 @@ public class CatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(destPoint);
+      
         if(!agent.pathPending && agent.remainingDistance < 0.3f) {
             GotoNextPoint();
         }

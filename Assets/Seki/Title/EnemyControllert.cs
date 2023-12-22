@@ -38,7 +38,7 @@ public class EnemyControllert : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(playerHit + "敵動いて良いよー"+enemyMove);
+        
             
         if(playerHit && enemyMove) {
             

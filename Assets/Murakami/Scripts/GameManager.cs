@@ -134,10 +134,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject missText;
 
     CharacterController _characterController;
+    [SerializeField] GameObject gameOverplayer;
+    Animator overPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
+        overPlayer = gameOverplayer.GetComponent<Animator>();
+        gameOverplayer.SetActive(false);
         _characterController = playerObject.GetComponent<CharacterController>();
         zankiIconText = zankiIocn.GetComponentInChildren<Text>();
         gameOverThings.SetActive(false);
@@ -230,6 +234,7 @@ public class GameManager : MonoBehaviour
 
     void GameOverActive() {
         gameOverThings.SetActive(true);
+        gameOverplayer.SetActive(true);
     }
     
     private void FixedUpdate() {
@@ -328,8 +333,6 @@ public class GameManager : MonoBehaviour
     }
 
     void FadeIn() {
-
-
         zankiIocn.SetActive(false);
         
         if(P_alfa > 0.0f) {
