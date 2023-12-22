@@ -146,6 +146,7 @@ public class MissionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if(!missionFlag && !missionClear && !ybutton) {
             if(Gamepad.current.yButton.wasPressedThisFrame) {
                 sousaCount++;
@@ -201,7 +202,10 @@ public class MissionManager : MonoBehaviour
         }
         if(missionClear) {
             sousaCount = 0;
-            missionObj[ransu].SetActive(false);
+            if(ransu != 2) {
+                missionObj[ransu].SetActive(false);
+            }
+            
             StartCoroutine(WaitMission());
             
         }

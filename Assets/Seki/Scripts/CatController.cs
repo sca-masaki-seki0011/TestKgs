@@ -39,7 +39,7 @@ public class CatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        agent = this.GetComponent<NavMeshAgent>();
         player = playerObj.GetComponent<PlayerInput>();
         playerC = playerObj.GetComponent<PlayerC>();
         destPoint = Random.Range(0, m_gameObject.Length);
@@ -52,14 +52,21 @@ public class CatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!agent.pathPending && agent.remainingDistance < 0.5f) {
+        Debug.Log(destPoint);
+        if(!agent.pathPending && agent.remainingDistance < 0.3f) {
             GotoNextPoint();
         }
 
-            
+        Vector3 cube = playerObj.transform.position;
+        float dis = Vector3.Distance(cube, this.transform.position);
+        if(dis < 25f) {
+            agent.speed = 5.0f;
+        } else {
+            agent.speed = 3.5f;
+        }
 
-            if(dirastionCount == 4) {
-                player.enabled = true;
+        if(dirastionCount == 4) {
+                
                 playerC.MISSIO = true;
                 missionManager.MISSIONVALUE[missionManager.RADOMMISSIONCOUNT]++;
                 missionManager.KeyActive(missionManager.RADOMMISSIONCOUNT);
@@ -76,7 +83,7 @@ public class CatController : MonoBehaviour
 
         //ene.SetBool("walk", false);
         agent.destination = m_gameObject[destPoint].position;
-        destPoint = (destPoint + 1) % m_gameObject.Length;
+        destPoint = (destPoint+1) % m_gameObject.Length;
 
 
     }

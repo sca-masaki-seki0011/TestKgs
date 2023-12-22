@@ -8,13 +8,13 @@ public class CatCol : MonoBehaviour
     [SerializeField] int colCount = 0;
    
     [SerializeField] PlayerInput playerInput;
-    CatController cat;
+    [SerializeField] CatController cat;
     BoxCollider bo;
 
     // Start is called before the first frame update
     void Start()
     {
-        cat = GetComponentInParent<CatController>();
+        cat = cat.GetComponent<CatController>();
         bo = this.GetComponent<BoxCollider>();
     }
 
@@ -26,12 +26,12 @@ public class CatCol : MonoBehaviour
 
     private void OnTriggerEnter(Collider col) {
         if(col.tag == "Player") {
-           if(colCount != 3) {
+           
                 cat.DIRATIONCOUNT = colCount;
                 //cat.STOPCAT = false;
       
                 //playerInput.enabled = false;
-           } 
+          
         }
     }
 
