@@ -18,6 +18,7 @@ TagManager:
   - Ice
   - cat
   - cateye
+  - p
   layers:
   - Default
   - TransparentFX
