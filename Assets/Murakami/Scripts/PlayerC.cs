@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DG.Tweening;
+using PathCreation;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerC : MonoBehaviour
@@ -117,6 +118,10 @@ public class PlayerC : MonoBehaviour
             return this.KeyCount;
         }
     }
+
+    public PathCreator pathCreator;
+    float P_speed = 5.0f;
+    float d;
 
     private GameObject _mainCamera;
 
@@ -243,6 +248,7 @@ public class PlayerC : MonoBehaviour
         playerRemain = gameManager.ManagerRemain;
     }
 
+    bool p = false;
 
     void Start()
     {
@@ -258,10 +264,12 @@ public class PlayerC : MonoBehaviour
         }
     }
 
-    
+    bool up = false;
+    bool down = false;
 
     void Update()
     {
+        Debug.Log(GetSlope());
        if(onTramporin) {
             bigJump = true;
        
@@ -316,8 +324,14 @@ public class PlayerC : MonoBehaviour
             _playerInput.enabled = false;
             
         }
-       else{
+       else if(p){
             //プレイヤーの状態管理
+            d+=P_speed*Time.deltaTime;
+            _transform.position = pathCreator.path.GetPointAtDistance(d);
+
+            //MovePlayer();
+        }
+        else {
             MovePlayer();
         }
     }
@@ -532,7 +546,7 @@ return _playerInput.currentControlScheme == "Gamepad";
             // 移動入力がある場合は、振り向き動作も行う
 
             // 操作入力からy軸周りの目標角度[deg]を計算
-            var targetAngleY = - Mathf.Atan2(_inputMove.y, _inputMove.x)
+            var targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x)
                 * Mathf.Rad2Deg+90;
            
             // イージングしながら次の回転角度[deg]を計算
@@ -544,11 +558,42 @@ return _playerInput.currentControlScheme == "Gamepad";
           );
 
             // オブジェクトの回転を更新
-            _transform.rotation = Quaternion.Euler(0, angleY, 0);
+            //if(!p) {
+            //_transform.rotation = Quaternion.Euler(-GetSlope(), angleY, 0);
+            //}
+            //
+            // else {
+            if(GetSlope() <= 1f) {
+                up = false;
+                down = false;
+            }
+            if(up) {
+                _gravity = 0f;
+                _transform.rotation = Quaternion.Euler(-GetSlope(), 0, 0);
+                //up = false;
+            }
+            else if(down) {
+                _gravity = 15f;
+                _transform.rotation = Quaternion.Euler(GetSlope(), 0, 0);
+                //down = false;
+            }
+           else if(!up && !down){
+                _transform.rotation = Quaternion.Euler(0, angleY, 0);
+            }
         }
+
+       
     }
 
-    
+    float GetSlope() {
+        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit)) {
+            return Vector3.Angle(Vector3.up, hit.normal);
+        }
+
+        return 0f;
+    }
+
+
 
     //移動処理
     private void PlayerMove(float speed)//, Vector3 cameraVec
@@ -631,11 +676,12 @@ return _playerInput.currentControlScheme == "Gamepad";
             allGoal = true;
             gameManager.NameChange();
         }
+
         
-        
-        
+
     }
  
+    /*
     public void SwitchPath(int count) {
         switch(count) {
             case 1:
@@ -662,7 +708,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         }
         
     }
-
+    */
     void MoveSlide(Vector3[] path) {
         this.transform.DOPath(path, 3.5f);
     }
@@ -696,6 +742,19 @@ return _playerInput.currentControlScheme == "Gamepad";
             StartCoroutine(WaitChara());
         }
        
+        if(col.tag == "up") {
+            up = true;
+           
+        }
+
+        if(col.tag == "p") {
+            p = true;
+        }
+
+        if(col.tag == "down") {
+            down = true;
+            
+        }
 
         
             if(col.tag == "mission") {
@@ -729,6 +788,7 @@ return _playerInput.currentControlScheme == "Gamepad";
                 _playerInput.enabled = false;
             }
         }
+        
     }
     
     IEnumerator WaitFall() {

@@ -19,6 +19,8 @@ TagManager:
   - cat
   - cateye
   - p
+  - up
+  - down
   layers:
   - Default
   - TransparentFX

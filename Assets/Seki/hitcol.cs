@@ -21,7 +21,7 @@ public class hitcol : MonoBehaviour
     private void OnTriggerEnter(Collider col) {
         if(col.tag == "Player") {
             Debug.Log("“–‚½‚Á‚½");
-            pl.SwitchPath(count);
+            //pl.SwitchPath(count);
         }
     }
 }
