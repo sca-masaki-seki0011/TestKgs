@@ -120,7 +120,7 @@ public class PlayerC : MonoBehaviour
     }
 
     public PathCreator pathCreator;
-    float P_speed = 5.0f;
+    float P_speed = 20.0f;
     float d;
 
     private GameObject _mainCamera;
@@ -217,7 +217,6 @@ public class PlayerC : MonoBehaviour
     [System.NonSerialized]
     public Vector3 lastHitPoint = new Vector3(Mathf.Infinity, 0, 0);
 
-    protected float groundAngle = 0;
 
     bool missio = false;
     public bool MISSIO {
@@ -397,7 +396,7 @@ return _playerInput.currentControlScheme == "Gamepad";
     {
         
         if(silde) {
-            DOTween.KillAll(); 
+            //DOTween.KillAll(); 
             _jumpSpeed = 20f;
             playerSpeed = 10f;
             _verticalVelocity = _jumpSpeed;
@@ -407,7 +406,8 @@ return _playerInput.currentControlScheme == "Gamepad";
             silde = false;
         } else {
             _jumpSpeed = 10f;
-            
+            playerSpeed = 4f;
+
         }
        
         //’n–Ê‚É‚¢‚éŠ‚Â‰ñ”ğ‚µ‚Ä‚¢‚È‚¢‚¾‚¯ˆ—‚·‚é
@@ -749,6 +749,9 @@ return _playerInput.currentControlScheme == "Gamepad";
 
         if(col.tag == "p") {
             p = true;
+        }
+        if(col.tag == "P") {
+            p = false;
         }
 
         if(col.tag == "down") {

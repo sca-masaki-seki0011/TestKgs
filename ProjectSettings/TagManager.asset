@@ -21,6 +21,7 @@ TagManager:
   - p
   - up
   - down
+  - P
   layers:
   - Default
   - TransparentFX
