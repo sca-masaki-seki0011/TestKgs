@@ -330,7 +330,7 @@ public class PlayerC : MonoBehaviour
             //d+=P_speed*Time.deltaTime;
             //_transform.position = pathCreator.path.GetPointAtDistance(d);
             //_gravity = 0f;
-            _transform.rotation = Quaternion.Euler(0, 0, -90);
+            _transform.rotation = Quaternion.Euler(0, 0, -90);//←ここのZ座標は左の壁と右の壁で変わる
             //_transform.position = pathCreators.path.GetPointAtDistance(d); 
             MovePlayer();
         }
@@ -484,6 +484,9 @@ return _playerInput.currentControlScheme == "Gamepad";
             return this.getKey;
         }
     }
+
+    float targetAngleY;
+    float angleY;
     //行動処理
     private void MovePlayer()
     {
@@ -549,17 +552,21 @@ return _playerInput.currentControlScheme == "Gamepad";
         {
             // 移動入力がある場合は、振り向き動作も行う
 
-            // 操作入力からy軸周りの目標角度[deg]を計算
-            var targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x)
-                * Mathf.Rad2Deg+90;
+            //操作入力からy軸周りの目標角度[deg]を計算
            
+            targetAngleY = -Mathf.Atan2(_inputMove.y, _inputMove.x)
+                * Mathf.Rad2Deg+90;
+
+
+            
             // イージングしながら次の回転角度[deg]を計算
-            var angleY = Mathf.SmoothDampAngle(
+            angleY = Mathf.SmoothDampAngle(
                 _transform.eulerAngles.y,
                targetAngleY,
                ref _turnVelocity,
                 0.1f
           );
+        
 
             // オブジェクトの回転を更新
             if(!p) {
@@ -600,16 +607,17 @@ return _playerInput.currentControlScheme == "Gamepad";
     }
 
 
-
+    Vector3 moveVelocity;
     //移動処理
     private void PlayerMove(float speed)//, Vector3 cameraVec
     {
-        
-            Vector3 moveVelocity = new Vector3(
+           moveVelocity = new Vector3(
              _inputMove.x * speed,
              _verticalVelocity,
              _inputMove.y * speed
          );
+        
+        
           var moveDelta = moveVelocity * Time.deltaTime;
         
        

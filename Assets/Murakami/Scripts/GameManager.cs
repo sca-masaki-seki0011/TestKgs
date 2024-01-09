@@ -137,9 +137,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameOverplayer;
     Animator overPlayer;
 
+    [SerializeField] Animator sousaImage;
+
     // Start is called before the first frame update
     void Start()
     {
+        sousaImage.enabled = false;
         overPlayer = gameOverplayer.GetComponent<Animator>();
         gameOverplayer.SetActive(false);
         _characterController = playerObject.GetComponent<CharacterController>();
@@ -167,6 +170,11 @@ public class GameManager : MonoBehaviour
         zankiAnim.enabled = false;
         ZankiText.SetText("Å~{0}", managerRemain);
         dessPosition = player.transform.position;
+        Invoke("Sousa",2.0f);
+    }
+
+    void Sousa() {
+        sousaImage.enabled = true;
     }
 
     bool zankiAdd = false;
