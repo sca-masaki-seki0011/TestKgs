@@ -691,10 +691,20 @@ return _playerInput.currentControlScheme == "Gamepad";
             gameManager.NameChange();
         }
 
-     
+        if(hit.gameObject.tag == "push") {
+            StartCoroutine("GoMovingObject", hit.collider.attachedRigidbody);
+        }
 
     }
- 
+
+    private IEnumerator GoMovingObject(Rigidbody inRigid) {
+        if(inRigid != null || !inRigid.isKinematic) {
+            inRigid.velocity = transform.forward * 2.0f;
+            yield return new WaitForSeconds(0.1f);
+            //inRigid.velocity = Vector3.zero;
+        }
+    }
+
     /*
     public void SwitchPath(int count) {
         switch(count) {
