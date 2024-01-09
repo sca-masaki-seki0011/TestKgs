@@ -120,7 +120,8 @@ public class PlayerC : MonoBehaviour
     }
 
     public PathCreator pathCreator;
-    float P_speed = 20.0f;
+    public PathCreator pathCreators;
+    float P_speed = 0.5f;//20.0f;
     float d;
 
     private GameObject _mainCamera;
@@ -268,7 +269,7 @@ public class PlayerC : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(GetSlope());
+  
        if(onTramporin) {
             bigJump = true;
        
@@ -324,11 +325,14 @@ public class PlayerC : MonoBehaviour
             
         }
        else if(p){
+            Debug.Log("壁");
             //プレイヤーの状態管理
-            d+=P_speed*Time.deltaTime;
-            _transform.position = pathCreator.path.GetPointAtDistance(d);
-
-            //MovePlayer();
+            //d+=P_speed*Time.deltaTime;
+            //_transform.position = pathCreator.path.GetPointAtDistance(d);
+            //_gravity = 0f;
+            _transform.rotation = Quaternion.Euler(0, 0, -90);
+            //_transform.position = pathCreators.path.GetPointAtDistance(d); 
+            MovePlayer();
         }
         else {
             MovePlayer();
@@ -558,11 +562,12 @@ return _playerInput.currentControlScheme == "Gamepad";
           );
 
             // オブジェクトの回転を更新
-            //if(!p) {
-            //_transform.rotation = Quaternion.Euler(-GetSlope(), angleY, 0);
-            //}
-            //
-            // else {
+            if(!p) {
+            _transform.rotation = Quaternion.Euler(0, angleY, 0);
+            }
+            
+            
+            /*
             if(GetSlope() <= 1f) {
                 up = false;
                 down = false;
@@ -580,6 +585,7 @@ return _playerInput.currentControlScheme == "Gamepad";
            else if(!up && !down){
                 _transform.rotation = Quaternion.Euler(0, angleY, 0);
             }
+            */
         }
 
        
@@ -677,7 +683,7 @@ return _playerInput.currentControlScheme == "Gamepad";
             gameManager.NameChange();
         }
 
-        
+     
 
     }
  
@@ -746,12 +752,13 @@ return _playerInput.currentControlScheme == "Gamepad";
             up = true;
            
         }
-
+        
         if(col.tag == "p") {
             p = true;
         }
+        
         if(col.tag == "P") {
-            p = false;
+            //p = false;
         }
 
         if(col.tag == "down") {
@@ -824,7 +831,6 @@ return _playerInput.currentControlScheme == "Gamepad";
 
 
     bool y = false;
-  
 
     private void OnTriggerExit(Collider col)
     {
@@ -833,6 +839,7 @@ return _playerInput.currentControlScheme == "Gamepad";
             StartCoroutine(WaitJump());
             onTramporin = false;
         }
+      
     }
 
     IEnumerator WaitJump() {
