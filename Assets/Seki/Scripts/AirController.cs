@@ -6,6 +6,7 @@ public class AirController : MonoBehaviour
 {
     [SerializeField] GameObject Pos;
     float speed = 20.0f;
+    bool hit = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,7 @@ public class AirController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!hit) { 
         var delta = this.transform.position - Pos.transform.position;
 
         // Ã~‚µ‚Ä‚¢‚éó‘Ô‚¾‚ÆAis•ûŒü‚ğ“Á’è‚Å‚«‚È‚¢‚½‚ß‰ñ“]‚µ‚È‚¢
@@ -30,5 +32,13 @@ public class AirController : MonoBehaviour
 
         float step = speed * Time.deltaTime;
         this.transform.position = Vector3.MoveTowards(this.transform.position, Pos.transform.position, step);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if(collision.gameObject.tag == "air") {
+            hit = true;
+            Debug.Log("HITT");
+        }
     }
 }

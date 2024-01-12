@@ -23,6 +23,7 @@ TagManager:
   - down
   - P
   - push
+  - air
   layers:
   - Default
   - TransparentFX
