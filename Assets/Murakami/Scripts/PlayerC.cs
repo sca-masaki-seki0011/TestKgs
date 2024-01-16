@@ -121,7 +121,7 @@ public class PlayerC : MonoBehaviour
 
     public PathCreator pathCreator;
     public PathCreator pathCreators;
-    float P_speed = 0.5f;//20.0f;
+    float P_speed = 20.0f;//0.5f;
     float d;
 
     private GameObject _mainCamera;
@@ -327,12 +327,12 @@ public class PlayerC : MonoBehaviour
        else if(p){
             Debug.Log("壁");
             //プレイヤーの状態管理
-            //d+=P_speed*Time.deltaTime;
-            //_transform.position = pathCreator.path.GetPointAtDistance(d);
+            d+=P_speed*Time.deltaTime;
+            _transform.position = pathCreator.path.GetPointAtDistance(d);
             //_gravity = 0f;
-            _transform.rotation = Quaternion.Euler(0, 0, -90);//←ここのZ座標は左の壁と右の壁で変わる
+            //_transform.rotation = Quaternion.Euler(0, 0, -90);//←ここのZ座標は左の壁と右の壁で変わる
             //_transform.position = pathCreators.path.GetPointAtDistance(d); 
-            MovePlayer();
+            //MovePlayer();
         }
         else {
             MovePlayer();
