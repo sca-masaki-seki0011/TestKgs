@@ -15,10 +15,18 @@ public class TargetMove2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         var vertical = Input.GetAxis("Vertical") * -1.0f;
         var horizontal = Input.GetAxis("Horizontal") * -1.0f;
         var direction = new Vector3(horizontal, 0.0f, vertical);
 
         transform.localPosition += direction * (moveSpeed * Time.deltaTime);
+        */
+        //var vertical = Input.GetAxis("Vertical") * -1.0f;
+        var horizontal = Input.GetAxis("Horizontal") * -1.0f;
+        var direction = new Vector3(horizontal, 0.0f, 0.0f);
+
+        transform.localPosition += direction * (moveSpeed * Time.deltaTime);
+        transform.localPosition += Vector3.forward * (-Time.deltaTime);
     }
 }

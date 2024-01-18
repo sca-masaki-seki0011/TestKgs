@@ -7,7 +7,7 @@ public class KaidanC : MonoBehaviour
 {
     
     [SerializeField] Transform[] Pos;
-    int destPoint = 4;
+    int destPoint = 0;
     float speed = 4.0f;
     bool up = false;
     bool down = false;

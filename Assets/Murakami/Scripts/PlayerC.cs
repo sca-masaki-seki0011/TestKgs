@@ -267,10 +267,10 @@ public class PlayerC : MonoBehaviour
     bool up = false;
     bool down = false;
 
+
     void Update()
     {
-  
-       if(onTramporin) {
+        if(onTramporin) {
             bigJump = true;
        
         
@@ -325,7 +325,7 @@ public class PlayerC : MonoBehaviour
             
         }
        else if(p){
-            Debug.Log("壁");
+            
             //プレイヤーの状態管理
             d+=P_speed*Time.deltaTime;
             _transform.position = pathCreator.path.GetPointAtDistance(d);
@@ -339,7 +339,7 @@ public class PlayerC : MonoBehaviour
         }
     }
 
-    
+
 
     IEnumerator WaitSpeed() {
         yield return new WaitForSeconds(3.0f);
@@ -448,6 +448,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         if (!context.performed || !_characterController.isGrounded || staminaPlam == StaminaPlam.NotUse) return;
         StartDash();
     }
+   
 
     //ダッシュ終了
     public void EndDash(InputAction.CallbackContext context)
