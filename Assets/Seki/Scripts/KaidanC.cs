@@ -7,9 +7,11 @@ public class KaidanC : MonoBehaviour
 {
     
     [SerializeField] Transform[] Pos;
-    int destPoint = 1;
+    int destPoint = 4;
     float speed = 4.0f;
     bool slope = true;
+    bool up = false;
+    bool down = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,21 +22,58 @@ public class KaidanC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(slope) { 
-        if(this.transform.position == Pos[destPoint].transform.position) {
-            //Debug.Log("到着");
-            
-            if(destPoint >= Pos.Length - 1) {
-                destPoint = 0;
-                slope = false;
-            } else {
-                destPoint++;
-            }
-            
+        if(Input.GetKeyDown(KeyCode.E)) {
+            up = true;
+            slope = true;
         }
+        if(Input.GetKeyDown(KeyCode.R)) {
+            down = true;
+            slope = true;
+        }
+
+        if(slope) { 
+            if(up) {
+                UpMove();
+            }
+            if(down) {
+                DownMove();
+            }
+      
         
         GotoNextPoint(destPoint);
         Debug.Log("ポイント"+ destPoint);
+            Debug.Log("アップ"+up);
+            Debug.Log("ダウン" + down);
+        }
+    }
+
+    void UpMove() {
+        if(this.transform.position == Pos[destPoint].transform.position) {
+            //Debug.Log("到着");
+
+            if(destPoint >= Pos.Length - 1) {
+                //destPoint = 0;
+                slope = false;
+                up = false;
+            } else {
+                destPoint++;
+            }
+
+        }
+    }
+
+    void DownMove() {
+        if(this.transform.position == Pos[destPoint].transform.position) {
+            //Debug.Log("到着");
+
+            if(destPoint == 0) {
+                //destPoint = 0;
+                slope = false;
+                down = false;
+            } else {
+                destPoint--;
+            }
+
         }
     }
 
