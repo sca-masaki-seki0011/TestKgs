@@ -9,7 +9,6 @@ public class KaidanC : MonoBehaviour
     [SerializeField] Transform[] Pos;
     int destPoint = 4;
     float speed = 4.0f;
-    bool slope = true;
     bool up = false;
     bool down = false;
 
@@ -24,27 +23,27 @@ public class KaidanC : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E)) {
             up = true;
-            slope = true;
+            down = false;
         }
         if(Input.GetKeyDown(KeyCode.R)) {
             down = true;
-            slope = true;
+            up = false; ;
         }
 
-        if(slope) { 
-            if(up) {
-                UpMove();
-            }
-            if(down) {
-                DownMove();
-            }
+      
+        if(up) {
+            UpMove();
+        }
+        if(down) {
+            DownMove();
+        }
       
         
         GotoNextPoint(destPoint);
-        Debug.Log("ポイント"+ destPoint);
-            Debug.Log("アップ"+up);
-            Debug.Log("ダウン" + down);
-        }
+        //Debug.Log("ポイント"+ destPoint);
+        Debug.Log("アップ"+up);
+        Debug.Log("ダウン" + down);
+        
     }
 
     void UpMove() {
@@ -53,7 +52,7 @@ public class KaidanC : MonoBehaviour
 
             if(destPoint >= Pos.Length - 1) {
                 //destPoint = 0;
-                slope = false;
+                //slope = false;
                 up = false;
             } else {
                 destPoint++;
@@ -68,7 +67,7 @@ public class KaidanC : MonoBehaviour
 
             if(destPoint == 0) {
                 //destPoint = 0;
-                slope = false;
+                //slope = false;
                 down = false;
             } else {
                 destPoint--;
