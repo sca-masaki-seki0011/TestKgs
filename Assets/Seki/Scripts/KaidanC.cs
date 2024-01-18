@@ -84,10 +84,10 @@ public class KaidanC : MonoBehaviour
             return;
 
         // 進行方向（移動量ベクトル）に向くようなクォータニオンを取得
-        var rotation = Quaternion.LookRotation(delta, Vector3.up);
+        //var rotation = Quaternion.LookRotation(delta, Vector3.up);
 
         // オブジェクトの回転に反映
-        this.transform.rotation = rotation;
+        //this.transform.rotation = rotation;
 
 
         float step = speed * Time.deltaTime;
