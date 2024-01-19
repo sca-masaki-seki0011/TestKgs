@@ -93,7 +93,8 @@ public class MissionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i <= 4; i++) {
+        //Debug.Log("ƒ~ƒbƒVƒ‡ƒ“‰æ‘œ"+missionImage.Length);
+        for(int i = 0; i < missionImage.Length; i++) {
             numbers.Add(i);
         }
         for(int i = 0; i < missionAnim.Length; i++) {

@@ -9,6 +9,8 @@ public class Parent : MonoBehaviour
     //②ぶつかった親の子を取得してplayerを子と同じく動かす
 
 
+   
+
     [SerializeField]
     GameObject player;
 
@@ -36,7 +38,7 @@ public class Parent : MonoBehaviour
         this.transform.parent = newParent.transform;
         Vector3 direction = new Vector3(0f,180f,0f);
         transform.localRotation = Quaternion.Euler(direction);
-        characterMove2.enabled = true;
+        //characterMove2.enabled = true;あとでコメントアウト外す
         //Display the parent's name in the console.
         //Debug.Log("Player's Parent: " + player.transform.parent.name);
 

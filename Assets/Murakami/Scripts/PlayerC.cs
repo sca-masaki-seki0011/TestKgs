@@ -183,18 +183,6 @@ public class PlayerC : MonoBehaviour
     //[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
     //public GameObject CinemachineCameraTarget;
 
-    [Tooltip("How far in degrees can you move the camera up")]
-    public float TopClamp = 70.0f;
-
-    [Tooltip("How far in degrees can you move the camera down")]
-    public float BottomClamp = -30.0f;
-
-    [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-    public float CameraAngleOverride = 0.0f;
-
-    [Tooltip("For locking the camera position on all axis")]
-    public bool LockCameraPosition = false;
-
     // cinemachine
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
@@ -249,9 +237,10 @@ public class PlayerC : MonoBehaviour
     }
 
     bool p = false;
-
+    KaidanC g;
     void Start()
     {
+        g = this.GetComponent<KaidanC>();
         DamagePanel.SetActive(false);
         for(int u = 0; u < planeCol.Length; u++) {
             planeCol[u] = planeCol[u].GetComponentInChildren<MeshCollider>();
@@ -267,9 +256,17 @@ public class PlayerC : MonoBehaviour
     bool up = false;
     bool down = false;
 
+   
 
     void Update()
     {
+
+        if(!g.ka) { 
+            MovePlayer();
+            g.enabled = false;
+        }
+       
+        /*
         if(onTramporin) {
             bigJump = true;
        
@@ -309,14 +306,7 @@ public class PlayerC : MonoBehaviour
             StartCoroutine(WaitSpeed());
         } 
      
-        if(missio) {
-            missioTime += Time.deltaTime;
-        }
-        if(missioTime >= 3.0f) {
-            mission.MiSSIONCOUNT++;
-            missio = false;
-            missioTime = 0;
-        }
+       
 
         //スタミナ管理
         CountStamina();
@@ -336,6 +326,15 @@ public class PlayerC : MonoBehaviour
         }
         else {
             MovePlayer();
+        }
+        */
+        if(missio) {
+            missioTime += Time.deltaTime;
+        }
+        if(missioTime >= 3.0f) {
+            mission.MiSSIONCOUNT++;
+            missio = false;
+            missioTime = 0;
         }
     }
 
@@ -398,7 +397,8 @@ return _playerInput.currentControlScheme == "Gamepad";
     //ジャンプアクション
     public void OnJump(InputAction.CallbackContext context)
     {
-        
+        g.ka = false;
+        DOTween.KillAll();
         if(silde) {
             //DOTween.KillAll(); 
             _jumpSpeed = 20f;
@@ -491,6 +491,7 @@ return _playerInput.currentControlScheme == "Gamepad";
     //行動処理
     private void MovePlayer()
     {
+        
         _buttonAction = _playerInput.actions.FindAction("Dash");
         isGrounded = _characterController.isGrounded;
         //Vector3 cameraFor = cameraC.transform.position;

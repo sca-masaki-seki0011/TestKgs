@@ -8,9 +8,27 @@ public class KaidanC : MonoBehaviour
     
     [SerializeField] Transform[] Pos;
     int destPoint = 0;
+    public int DESTPOINT {
+        set {
+            this.destPoint = value;
+        }
+        get {
+            return this.destPoint;
+        }
+    }
     float speed = 4.0f;
     bool up = false;
     bool down = false;
+
+    public bool ka = false;
+    public bool KA {
+        set {
+            this.ka = value;
+        }
+        get {
+            return this.ka;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +39,7 @@ public class KaidanC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.E)) {
             up = true;
             down = false;
@@ -40,9 +59,9 @@ public class KaidanC : MonoBehaviour
       
         
         GotoNextPoint(destPoint);
+        
         //Debug.Log("ポイント"+ destPoint);
-        Debug.Log("アップ"+up);
-        Debug.Log("ダウン" + down);
+  
         
     }
 
