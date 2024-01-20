@@ -261,11 +261,11 @@ public class PlayerC : MonoBehaviour
     void Update()
     {
 
-        if(!g.enabled) { 
+        if(!allGoal && !gameManager.GAMEOVER && !g.enabled) { 
             MovePlayer();
             //g.enabled = false;
         }
-       
+
         /*
         if(onTramporin) {
             bigJump = true;
@@ -328,6 +328,10 @@ public class PlayerC : MonoBehaviour
             MovePlayer();
         }
         */
+        if(allGoal && !gameManager.GAMEOVER) {
+            _playerInput.enabled = false;
+
+        }
         if(missio) {
             missioTime += Time.deltaTime;
         }

@@ -44,6 +44,7 @@ public class CrazyCar : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == "push") {
             agent.speed = 0f;
+            //ミッションの達成ポイントを加算する
         }
     }
 }

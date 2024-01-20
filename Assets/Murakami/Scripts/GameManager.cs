@@ -109,6 +109,14 @@ public class GameManager : MonoBehaviour
     
 
     bool fadeIn = false;
+    public bool FADEIN {
+        set {
+            this.fadeIn = value;
+        }
+        get {
+            return this.fadeIn;
+        }
+    }
 
     bool GameOver = false;
     public bool GAMEOVER {
@@ -253,7 +261,7 @@ public class GameManager : MonoBehaviour
 
   
 
-    void FadeOut() {
+    public void FadeOut() {
         if(player.FALLING) {
             if(!player.ALLGOAL) {
                 StartCoroutine(WaitInoti());

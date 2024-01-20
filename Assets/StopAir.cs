@@ -5,7 +5,7 @@ using UnityEngine;
 public class StopAir : MonoBehaviour
 {
     //[SerializeField] GameObject airplane;
-    int count = 0;
+    public static int count = 0;
     BoxCollider boxCollider;
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,7 @@ public class StopAir : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("飛行機ミッションポイント"+count);
+        
     }
 
     private void OnTriggerEnter(Collider col) {
