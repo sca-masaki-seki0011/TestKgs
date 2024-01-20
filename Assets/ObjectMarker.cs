@@ -44,7 +44,6 @@ public class ObjectMarker : MonoBehaviour
 
     // UIの位置を毎フレーム更新
     private void Update() {
-        Debug.Log("アクティブ"+active);
         if(playerC.FALLING && !gameManager.GAMEOVER) {
             active = true;
             targetObj.enabled = false;

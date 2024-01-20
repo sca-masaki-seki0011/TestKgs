@@ -24,6 +24,7 @@ TagManager:
   - P
   - push
   - air
+  - rall
   layers:
   - Default
   - TransparentFX

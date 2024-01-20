@@ -261,9 +261,9 @@ public class PlayerC : MonoBehaviour
     void Update()
     {
 
-        if(!g.ka) { 
+        if(!g.enabled) { 
             MovePlayer();
-            g.enabled = false;
+            //g.enabled = false;
         }
        
         /*
@@ -398,9 +398,10 @@ return _playerInput.currentControlScheme == "Gamepad";
     public void OnJump(InputAction.CallbackContext context)
     {
         g.ka = false;
-        DOTween.KillAll();
+        g.enabled = false;
+        rallBox.enabled = true;
         if(silde) {
-            //DOTween.KillAll(); 
+            
             _jumpSpeed = 20f;
             playerSpeed = 10f;
             _verticalVelocity = _jumpSpeed;
@@ -678,7 +679,7 @@ return _playerInput.currentControlScheme == "Gamepad";
         playrPlam = PlayerPlam.Normal;
     }
 
-    
+    [SerializeField] BoxCollider rallBox;
     //ê⁄êGèàóù
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -696,7 +697,11 @@ return _playerInput.currentControlScheme == "Gamepad";
         if(hit.gameObject.tag == "push") {
             StartCoroutine("GoMovingObject", hit.collider.attachedRigidbody);
         }
-
+        if(hit.gameObject.tag == "rall") {
+            g.enabled = true;
+            g.ka = true;
+            rallBox.enabled = false;
+        }
     }
 
     private IEnumerator GoMovingObject(Rigidbody inRigid) {

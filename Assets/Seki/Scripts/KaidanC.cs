@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class KaidanC : MonoBehaviour
@@ -18,7 +19,23 @@ public class KaidanC : MonoBehaviour
     }
     float speed = 4.0f;
     bool up = false;
+    public bool UP {
+        set {
+            this.up = value;
+        }
+        get {
+            return this.up;
+        }
+    }
     bool down = false;
+    public bool DOWN {
+        set {
+            this.down = value;
+        }
+        get {
+            return this.down;
+        }
+    }
 
     public bool ka = false;
     public bool KA {
@@ -30,26 +47,26 @@ public class KaidanC : MonoBehaviour
         }
     }
 
+    bool stop = false;
+    public bool STOP {
+        set {
+            this.stop = value;
+        }
+        get {
+            return this.stop;
+        }
+    }
+    
+
     // Start is called before the first frame update
     void Start()
     {
-       this.transform.position = Pos[destPoint].transform.position;
+        this.transform.position = Pos[destPoint].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if(Input.GetKeyDown(KeyCode.E)) {
-            up = true;
-            down = false;
-        }
-        if(Input.GetKeyDown(KeyCode.R)) {
-            down = true;
-            up = false; ;
-        }
-
-      
         if(up) {
             UpMove();
         }
@@ -60,7 +77,6 @@ public class KaidanC : MonoBehaviour
         
         GotoNextPoint(destPoint);
         
-        //Debug.Log("ポイント"+ destPoint);
   
         
     }
@@ -72,7 +88,10 @@ public class KaidanC : MonoBehaviour
             if(destPoint >= Pos.Length - 1) {
                 //destPoint = 0;
                 //slope = false;
+                
+               
                 up = false;
+                stop = true;
             } else {
                 destPoint++;
             }
@@ -87,13 +106,17 @@ public class KaidanC : MonoBehaviour
             if(destPoint == 0) {
                 //destPoint = 0;
                 //slope = false;
+                
+          
                 down = false;
+                stop = true;
             } else {
                 destPoint--;
             }
 
         }
     }
+
 
     void GotoNextPoint(int c) {
         var delta = this.transform.position - Pos[c].transform.position;
@@ -106,18 +129,13 @@ public class KaidanC : MonoBehaviour
         //var rotation = Quaternion.LookRotation(delta, Vector3.up);
 
         // オブジェクトの回転に反映
-        //this.transform.rotation = rotation;
+        if(stop) {
+            this.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-
-        float step = speed * Time.deltaTime;
-        this.transform.position = Vector3.MoveTowards(this.transform.position, Pos[c].transform.position, step);
-        
-        //if(Pos.Length == 0) {
-        //return;
-        //}
-
-        //ene.SetBool("walk", false);
-        //agent.destination = Pos[destPoint].position;
-        //destPoint = (destPoint + 1) % Pos.Length;
+        } else {
+            this.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            float step = speed * Time.deltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, Pos[c].transform.position, step);
+        }
     }
 }

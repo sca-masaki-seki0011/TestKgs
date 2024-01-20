@@ -22,16 +22,10 @@ public class HitKaidan : MonoBehaviour
     private void OnTriggerEnter(Collider col) {
         if(col.tag == "Player") {
             Debug.Log("ƒqƒbƒg");
-            kaidanC.enabled = true;
-            kaidanC.ka = true;
-            boxCollider.enabled = false;
-            StartCoroutine(WaitCol());
+          
+            //boxCollider.enabled = false;
+            //StartCoroutine(WaitCol());
             kaidanC.DESTPOINT = kaidanCount;
         }
-    }
-
-    IEnumerator WaitCol() {
-        yield return new WaitForSeconds(2.0f);
-        boxCollider.enabled = true;
     }
 }
